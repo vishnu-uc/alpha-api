@@ -1,0 +1,45 @@
+openapi: 3.0.0
+
+components:
+  examples:
+    invalid_json_schema:
+      value:
+        status: failure
+        message: "Schema Validation Failed for Search Query Schema"
+        type: INVALID_JSON_SCHEMA
+
+    server_down:
+      value:
+        status: failure
+        message: "Server is Down, Try again later."
+        type: PYTHON_EXCEPTION
+
+    no_token:
+      value:
+        status: failure
+        message: "The `Token` keyword on HTTP Header `Authorization` is not passed."
+        type: AUTHORIZATION
+
+    no_authorization:
+      value:
+        status: failure
+        message: "HTTP Header `Authorization` is not passed."
+        type: AUTHORIZATION
+
+    invalid_token:
+      value:
+        status: failure
+        message: "Invalid token."
+        type: AUTHORIZATION
+
+    rate_limit:
+      value:
+        status: failure
+        message: "Request rate limit exceeded. Maximum allowed is 1 request per second"
+        type: RATE_LIMIT_EXCEEDED
+
+    url_not_found:
+      value:
+        message: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."
+        status: "failure"
+        type: "URL_NOT_FOUND"

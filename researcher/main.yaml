@@ -1,0 +1,196 @@
+
+openapi: 3.0.0
+
+info:
+  title: Search API's [Alpha]
+  description: Search API's
+  version: "v5.x.x Alpha"
+  contact:
+    name: Abhilash Joseph C
+    email: abhilash@unicourt.com
+
+servers:
+  - url: "http://localhost:9876/internal/v5"
+    description: Local server
+  - url: "http://staging-alb.unicourt.internal:9876/internal/v5"
+    description: Staging server
+
+paths:
+  /search/query/:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Search APIs
+      description: |
+        ## Terms and Connectors Searching
+        | Connector | Description  | Example |
+        | ------| ------|------|
+        | **AND** |Find cases containing all connected terms. The word AND does not have to be capitalized.|**personal AND injury**|
+        | **OR**  |Find cases containing any connected term. The word OR does not have to be capitalized.| **order OR decision**|
+        | **NOT** |Excludes cases.| **personal AND NOT injury**.  Find cases with the word “personal” and not “injury”.|
+        | **“[phrase]”** |Finds an exact phrase| **"personal injury”** |
+        | **~**  |Find cases which have terms within a given proximity of each other.|**“personal injury” ~ 5** - Find cases with “personal” within five words of “injury”. |
+        | **( … )** |Parenthesis may be used to group sets of terms of connectors| **personal (injury OR fall) ~5** - Find cases with the word personal within five words of the word injury or fall.|
+        | **jurisdiction**|Find cases in a particular court|**jurisdiction:(New York)** - Find cases in New York courts jurisdiction:(federal AND NOT state) Find cases in the federal court, but not in state courts.|
+        |**status**|Find cases for a particular case status|**status: (Disposed)** - all disposed cases.<br> **status:(Pending AND Appeal)** Find all pending and appeal cases.|
+        | **case_type**|Find cases with the specified case type | **case_type:(Property)** - cases with case type “property”. <br>**case_type:(Bankruptcy AND Contract)** - Find cases with case type “bankruptcy” and “contract”.|
+        | **case_number** |Find text  in a particular case_number field | **case_number: 2020-L-007212** - Find cases whose case number matches given case number number.|
+        | **case_name** |Find text  in a particular case_name field| **case_name: THOMAS P. CARNEY, INC. VS BEHLER JAMES Et Al** - Find cases whose case name matches given terms.|
+        | **judge** |Find documents in a case involving a particular judge | **judge:Posner** - Find cases involving Judge Posner.|
+        | **party** | Find documents in a case involving a particular party| **party:Apple** - Find cases involving apple. |
+        | **party_type** | Find cases with the specified party type | **party_type:(plaintiff)** - Find cases with party type “plaintiff”<br> **party_type:(defendant AND attorney represented)** - Find cases where party is acting as defendant and represented by the attorney.|
+        | **firm** |Find documents in a case involving a particular firm | **firm:(“Weil Gotshal”)** - Find cases involving Weil Gotshal. |
+        | **attorney** | Find documents in a case involving a particular attorney | **attorney:(David Boies) ~4** - Find cases involving the attorney David Boies. |
+        | **from:[date] <br> to:[date]** | Date filters allow you to filter cases by the date they were filed. These dates are inclusive. | **from:3/1/2015** - Find cases no earlier than March 1, 2015<br> **from:2014 to:2015** - Find cases from Jan. 1, 2014 to Dec. 31, 2015,<br> **from:-5days to:-1days** - Find cases from 5 days ago to yesterday.|
+        | **is** | Docket: Only search through docket sheets. <br> pacer: Only search for cases that come from PACER's database (Federal District, appellate courts, and bankruptcies).|**Motion to Compel Responses  is:docket** - Find cases which has text Motion to Compel Responses in docket <br> **is:pacer** - Find cases only from PACER's database, To exclude PACER cases, add NOT is:pacer|
+        | **has** | Only search results which have particular information associated with the case.<br>Firm,  attorney, attorney_email, attorney_phone, judgment | **has: firm** - Only search results which have law firm information associated with the case.<br>**has:attorney** - Only search results which have attorney name information associated with the case.<br>**has:attorney_email** - Only search results which have attorney email information.<br>**has:attorney_phone** - Only search results which have attorney phone information.<br>**has:judgment** - Only search results which have judgment information|
+        | **num_party** | Search for cases with a specified number of parties. | **num_party:[10 TO 100]** - Find cases involving 10 to 100 parties. |
+        | **num_firm** | Search for cases with a specified number of law firms involved. | **num_firm:[ TO 2]** - Find cases involving at most 2 law firms. |
+        | **num_attorney** | Search for cases with a specified number of attorneys involved. | **num_attorney:[2 TO 40]** - Find cases involving 2 to 40 attorneys. |
+        | **date_filed** | Search for cases based on the most recently filed in the unicourt. | **date_filed:(from:3/15/2015 to:12/1/2016)** - Find where the most recently filed cases between March 15, 2015 and December 1, 2016 (inclusive). |
+        | **date_created** | Search for cases based on the time they were added to unicourt. | **date_created:(from:-3days)** - Find cases that were created in the past three days. |
+        | **date_last_updated** | &nbsp;Search for cases based on time they were last updated on unicourt. | **date_last_updated:(from:-60days to:-30days)** - Find cases that were last updated on Docket Alarm from 60 days ago to 30 days ago. |
+        | **\*** |Find similar words with variations on single characters. | **wom\*n** - Find documents containing either “woman” or “women” |
+        | **nos** | Find cases by Nature of Suit Codes. | **nos:1730** |
+        <br><br>
+        ## Party Sub Filter Examples
+        |Example |Explanation |
+        |---|---|
+        |**party:(name:google type:plaintiff)**|Find cases where Google is acting as the plaintiff.|
+        |**party:(name:google firm:(name:(dla piper)))**|Find cases where google is represented by the firm DLA Piper.|
+        |**party:(name:google attorney:"john smith") type:defendant)**|Find cases where google is acting as a defendant and represented by the attorney John Smith.|
+
+
+
+      summary: search any keyword with attribute and filters.
+      parameters:
+        - $ref: "#/components/parameters/client_account_id_param"
+        - $ref: "search/search_query/get_request.yaml#/components/parameters/qParam"
+        - $ref: "search/search_query/get_request.yaml#/components/parameters/pageParam"
+        - $ref: "search/search_query/get_request.yaml#/components/parameters/sortParam"
+        - $ref: "search/search_query/get_request.yaml#/components/parameters/orderParam"
+        - $ref: "search/search_query/get_request.yaml#/components/parameters/limitParam"
+      responses:
+        '200':
+          $ref: "search/search_query/response.yaml#/components/responses/search_api"
+        '500':
+          $ref: "common_response.yaml#/components/responses/500"
+        '404':
+          $ref: "common_response.yaml#/components/responses/404"
+        '401':
+          $ref: "common_response.yaml#/components/responses/401"
+
+#  /search/advanced/query/:
+#    post:
+#      security:
+#        - bearerAuth: []
+#      tags:
+#        - Search APIs
+#      description: |
+#      summary: search any number keyword with multiple criterias and filters
+#      parameters:
+#        - $ref: "#/components/parameters/client_account_id_param"
+#      requestBody:
+#        $ref: "search/search_query/v2_request.yaml#/components/requestBodies/search_api"
+#      responses:
+#        '200':
+#          $ref: "search/search_query/v2_response.yaml#/components/responses/search_api"
+#        '500':
+#          $ref: "common_response.yaml#/components/responses/500"
+#        '404':
+#          $ref: "common_response.yaml#/components/responses/404"
+#        '401':
+#          $ref: "common_response.yaml#/components/responses/401"
+
+  /master-data/{master_data_type}:
+    get:
+      tags:
+        - Master Data APIs
+      description: |
+        Whether, each node has children node can be decided using child_count field in response.
+      security:
+        - bearerAuth: []
+      summary: Returns root nodes for the requested master_data_type from the system.
+      parameters:
+        - $ref: "#/components/parameters/client_account_id_param"
+        - in: path
+          name: master_data_type
+          example: jurisdiction
+          schema:
+            type: string
+            enum: [jurisdiction, case_type, case_status, docket_tag, party_type, representation_type]
+          required: true
+          description: Master Data Type Requested.
+        - in: header
+          name: client_account_id
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: "filter/root_node/response.yaml#/components/responses/root_node"
+        '500':
+          $ref: "common_response.yaml#/components/responses/500"
+        '404':
+          $ref: "common_response.yaml#/components/responses/404"
+        '401':
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /master-data/{master_data_type}/{id}/children:
+    get:
+      tags:
+        - Master Data APIs
+      security:
+        - bearerAuth: []
+      description: |
+        Whether, node has children node can be decided using child_count field in response.
+      summary:
+        Returns children nodes for the requested master_data_type for given master_data_id from the system.
+      parameters:
+        - $ref: "#/components/parameters/client_account_id_param"
+        - in: path
+          name: master_data_type
+          example: jurisdiction
+          schema:
+            type: string
+            enum: [jurisdiction, case_type, case_status, docket_tag, party_type, representation_type]
+          required: true
+          description: Master Data Type requested.
+        - in: path
+          name: id
+          example: 2
+          schema:
+            type: integer
+          required: true
+          description: Master Data ID for which child nodes are requested.
+        - in: header
+          name: client_account_id
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: "filter/child_node/response.yaml#/components/responses/child_node"
+        '500':
+          $ref: "common_response.yaml#/components/responses/500"
+        '404':
+          $ref: "common_response.yaml#/components/responses/404"
+        '401':
+          $ref: "common_response.yaml#/components/responses/401"
+        '204':
+          $ref: "common_response.yaml#/components/responses/204"
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    client_account_id_param:
+      in: header
+      description: Client account id for authorization
+      name: client_account_id
+      required: true
+      type: string
+      example: researcher

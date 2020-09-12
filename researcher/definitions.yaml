@@ -1,0 +1,1746 @@
+openapi: 3.0.0
+
+info:
+  title: Search API's
+  description: Search API can be use to query on search server and get result fast. This support muttiple filters.
+  version: "3.1.x"
+  contact:
+    name: Abhilash Joseph C
+    email: abhilash@unicourt.com
+
+definitions:
+
+  search_term:
+    type: string
+    minLength: 3
+    maxLength: 250
+    pattern: "\\w+"
+    description: Search term
+    example: "Google"
+
+  search_query:
+    type: object
+    title: SearchCriteria
+    properties:
+      terms:
+        title: SearchCriteria
+        description: Pattern for each search terms, used for doing operations like AND / OR, if there are two
+          search terms then the criteria will be (1 AND 2),  if there are 3 condition then the criteria will be
+          ((1 AND 2) AND 3).
+        type: object
+        properties:
+          "1":
+            type: object
+            title: "SearchTerms"
+            properties:
+              search_terms:
+                type: array
+                minItems: 1
+                maxItems: 20
+                items:
+                  "$ref": "#/definitions/search_term"
+              attribute:
+                type: string
+                enum:
+                  - case_name
+                  - party_fullname
+                  - attorney_fullname
+                  - judge_fullname
+                  - case_number
+                  - docket
+                  - norm_party_id
+                  - norm_attorney_id
+                  - norm_law_firm_id
+                  - norm_judge_id
+                  - all
+              proximity:
+                type: string
+                enum:
+                  - '0'
+                  - "-1"
+              scope:
+                type: string
+                enum:
+                  - match_any
+                  - match_all
+              operator:
+                type: string
+                enum:
+                  - is
+                  - not
+              additional_attributes:
+                type: array
+                items:
+                  title: AdditionalAttribute
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      enum:
+                        - party_type
+                        - party_representation_type
+                      example: party_type
+                    value:
+                      type: integer
+                      minimum: 1
+                      example: 1
+            required:
+              - search_terms
+              - attribute
+              - proximity
+              - scope
+              - operator
+      criteria:
+        type: string
+        minLength: 1
+        example: "(1)"
+        description:
+    required:
+      - criteria
+      - terms
+
+  search_docket_query:
+      type: object
+      title: SearchTerms
+      properties:
+        terms:
+          title: SearchCriteria
+          description: Pattern for each search terms, used for doing operations like AND / OR, if there are two
+            search terms then the criteria will be (1 AND 2),  if there are 3 condition then the criteria will be
+            ((1 AND 2) AND 3).
+          type: object
+          properties:
+            "1":
+              type: object
+              title: "SearchTerms"
+              properties:
+                search_terms:
+                  type: array
+                  minItems: 1
+                  maxItems: 20
+                  items:
+                    "$ref": "#/definitions/search_term"
+                attribute:
+                  type: string
+                  enum:
+                    - docket
+                proximity:
+                  type: string
+                  enum:
+                    - '0'
+                    - "-1"
+                scope:
+                  type: string
+                  enum:
+                    - match_any
+                    - match_all
+                operator:
+                  type: string
+                  enum:
+                    - is
+                    - not
+              required:
+                - search_terms
+                - attribute
+                - proximity
+                - scope
+                - operator
+        criteria:
+          type: string
+          minLength: 1
+          example: "(1)"
+          description:
+      required:
+        - criteria
+        - terms
+      examples:
+
+  page_number:
+    type: number
+    minimum: 1
+    maximum: 100
+    example: 1
+
+  search_case_status:
+    type: object
+    title: CaseStatus
+    properties:
+      field:
+        type: string
+        enum:
+          - case_status
+        example: case_status
+      options:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              enum:
+              - category
+              - name
+              example: category
+            options:
+              type: array
+              minItems: 1
+              items:
+                type: number
+                example: 4
+          required:
+            - field
+            - options
+    required:
+      - field
+      - options
+
+  search_case_type:
+    type: object
+    title: CaseType
+    properties:
+      field:
+        type: string
+        enum:
+          - case_type
+        example: case_type
+      options:
+        type: array
+        minItems: 1
+        items:
+          title: Option
+          type: object
+          properties:
+            field:
+              type: string
+              enum:
+                - category
+                - group
+                - name
+              example: group
+            options:
+              type: array
+              minItems: 1
+              items:
+                type: number
+                example: 3
+          required:
+            - field
+            - options
+      scope:
+        type: string
+        enum:
+          - include
+          - exclude
+        example: include
+    required:
+      - field
+      - options
+
+  search_jurisdiction_v3:
+    type: object
+    title: Jurisdiction
+    properties:
+      field:
+        type: string
+        enum:
+          - jurisdiction
+        example: jurisdiction
+      options:
+        type: array
+        minItems: 1
+        items:
+          title: Option
+          type: object
+          properties:
+            field:
+              type: string
+              enum:
+                - court_system
+                - level_1_jurisdiction
+                - level_2_jurisdiction
+                - courthouse
+              example: courthouse
+            options:
+              type: array
+              minItems: 1
+              items:
+                type: number
+                example: 23
+          required:
+            - field
+            - options
+    required:
+      - field
+      - options
+
+  search_filing_date_range:
+    type: object
+    title: DateFilter
+    properties:
+      field:
+        type: string
+        enum:
+          - filing_date
+          - created_date
+          - last_update_changes_found
+          - action_date
+        example: filing_date
+      options:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              description: "Can use from_date / to_date / last_n_days OR both from_date and to_date"
+              enum:
+                - from_date
+                - to_date
+                - last_n_days
+              example: last_n_days
+            options:
+              type: array
+              minItems: 1
+              items:
+                oneOf:
+                  - type: string
+                    pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                    description: "For from_date and to_date."
+                  - type: string
+                    pattern: "^[0-9]+$"
+                    description: "For last_n_days."
+                    example: "1"
+          required:
+            - field
+            - options
+    required:
+      - field
+      - options
+
+  search_action_date_range:
+    type: object
+    title: DateFilter
+    properties:
+      field:
+        type: string
+        enum:
+          - action_date
+        example: action_date
+      options:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              description: "Can use from_date / to_date / last_n_days OR both from_date and to_date"
+              enum:
+                - from_date
+                - to_date
+                - last_n_days
+              example: last_n_days
+            options:
+              type: array
+              minItems: 1
+              items:
+                oneOf:
+                  - type: string
+                    pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                    description: "For from_date and to_date."
+                    example: '2018-01-01'
+                  - type: int
+                    minimum: 1
+                    maximum: 366
+                    description: "For last_n_days."
+                    example: 1
+          required:
+            - field
+            - options
+    required:
+      - field
+      - options
+
+  search_dollar_amount_range:
+    type: object
+    title: DollarAmount
+    properties:
+      field:
+        type: string
+        enum:
+          - dollar_amount
+        example: dollar_amount
+      options:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              description: "can use from_dollar_amount or to_dollar_amount or both"
+              type: string
+              enum:
+                - from_dollar_amount
+                - to_dollar_amount
+              example: from_dollar_amount
+            options:
+              type: array
+              minItems: 1
+              maxItems: 1
+              items:
+                type: string
+                pattern: "^[0-9]+$"
+                example: 500
+          required:
+            - field
+            - options
+    required:
+      - field
+      - options
+
+  response_search_filing_date_range:
+    type: object
+    title: DateFilter
+    properties:
+      field:
+        type: string
+        enum:
+          - filing_date
+          - created_date
+          - last_update_changes_found
+          - action_date
+        example: filing_date
+      options:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: object
+          properties:
+            field:
+              type: string
+              description: "from_date / to_date / last_n_days or both from_date and to_date"
+              enum:
+                - from_date
+                - to_date
+                - last_n_days
+              example: last_n_days
+            options:
+              type: array
+              minItems: 1
+              items:
+                oneOf:
+                  - type: string
+                    pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                    description: "For from_date and to_date."
+                  - type: integer
+                    description: "For last_n_days."
+                    example: 1
+
+  search_docket_tag:
+    type: object
+    title: DocketTag
+    properties:
+      field:
+        type: string
+        enum:
+          - docket_tag
+        example: docket_tag
+      options:
+        type: array
+        minItems: 1
+        items:
+          type: number
+          example: 4
+
+    required:
+      - field
+      - options
+
+  response_search_dollar_amount_range:
+    type: object
+    title: DollarAmount
+    properties:
+      field:
+        type: string
+        enum:
+          - dollar_amount
+        example: dollar_amount
+      options:
+        type: array
+        minItems: 1
+        maxItems: 2
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              description: "from_dollar_amount or to_dollar_amount or both"
+              type: string
+              enum:
+                - from_dollar_amount
+                - to_dollar_amount
+              example: from_dollar_amount
+            options:
+              type: array
+              minItems: 1
+              maxItems: 1
+              items:
+                type: string
+                pattern: "^[0-9]+$"
+                example: 500
+
+  response_search_case_status:
+    type: object
+    title: CaseStatus
+    properties:
+      field:
+        type: string
+        enum:
+          - case_status
+        example: case_status
+      options:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              enum:
+                - category
+                - name
+              example: category
+            options:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                title: Option
+                properties:
+                  key:
+                    type: number
+                    example: 4
+                  name:
+                    type: string
+                    example: "Not Yet Classified"
+
+  response_search_case_type:
+    type: object
+    title: CaseType
+    properties:
+      field:
+        type: string
+        enum:
+          - case_type
+        example: case_type
+      options:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              enum:
+                - category
+                - group
+                - name
+              example: group
+            options:
+              type: array
+              minItems: 1
+              items:
+                title: Option
+                type: object
+                properties:
+                  key:
+                    type: number
+                    example: 3
+                  name:
+                    type: string
+                    example: "Prisoner"
+      scope:
+        type: string
+        enum:
+          - include
+          - exclude
+        example: include
+
+  response_search_jurisdiction_v3:
+    type: object
+    title: Jurisdiction
+    properties:
+      field:
+        type: string
+        enum:
+          - jurisdiction
+        example: jurisdiction
+      options:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          title: Option
+          properties:
+            field:
+              type: string
+              enum:
+                - court_system
+                - level_1_jurisdiction
+                - level_2_jurisdiction
+                - courthouse
+              example: courthouse
+            options:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                title: Option
+                properties:
+                  key:
+                    type: number
+                    example: 23
+                  name:
+                    type: string
+                    example: "Malibu Courthouse"
+
+  response_search_query:
+    type: object
+    title: SearchCriteria
+    properties:
+      terms:
+        title: SearchCriteria
+        type: object
+        properties:
+          "1":
+            type: object
+            title: "SearchTerms"
+            properties:
+              search_terms:
+                type: array
+                minItems: 1
+                maxItems: 20
+                items:
+                  "$ref": "#/definitions/search_term"
+              attribute:
+                type: string
+                enum:
+                  - case_name
+                  - party_fullname
+                  - attorney_fullname
+                  - judge_fullname
+                  - case_number
+                  - docket
+                  - norm_party_id
+                  - norm_attorney_id
+                  - norm_law_firm_id
+                  - norm_judge_id
+                  - all
+              proximity:
+                type: string
+                enum:
+                  - '0'
+                  - "-1"
+              scope:
+                type: string
+                enum:
+                  - match_any
+                  - match_all
+              operator:
+                type: string
+                enum:
+                  - is
+                  - not
+              additional_attributes:
+                type: array
+                items:
+                  title: AdditionalAttribute
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      enum:
+                        - party_type
+                        - party_representation_type
+                      example: party_type
+                    value:
+                      type: integer
+                      minimum: 1
+                      example: 1
+      criteria:
+        type: string
+        minLength: 1
+        example: "(1)"
+
+  response_search_case_docket:
+    type: object
+    title: SearchCriteria
+    properties:
+      terms:
+        title: SearchCriteria
+        type: object
+        properties:
+          "1":
+            type: object
+            title: "SearchTerms"
+            properties:
+              search_terms:
+                type: array
+                minItems: 1
+                maxItems: 20
+                items:
+                  "$ref": "#/definitions/search_term"
+              attribute:
+                type: string
+                enum:
+                  - docket
+              proximity:
+                type: string
+                enum:
+                  - '0'
+                  - "-1"
+              scope:
+                type: string
+                enum:
+                  - match_any
+                  - match_all
+              operator:
+                type: string
+                enum:
+                  - is
+                  - not
+      criteria:
+        type: string
+        minLength: 1
+        example: "(1)"
+
+  response_search_docket_tag:
+    type: object
+    title: DocketTag
+    properties:
+      field:
+        type: string
+        enum:
+          - docket_tag
+        example: docket_tag
+      options:
+        type: array
+        minItems: 1
+        items:
+          title: Option
+          type: object
+          properties:
+            key:
+              type: number
+              example: 1
+            name:
+              type: string
+              example: Motion
+
+
+  response_action_text:
+    title: Action text result
+    type: array
+    items:
+      type: object
+      properties:
+        highlighted_text:
+          type: string
+          example: 'In The Alternative,
+                    For An Extension Of Time To Respond To The <b>Complaint</b>)(Marooney, Richard)
+                    [Transferred from New York Northern on 1/2/2018.] (Entered: 11/20/2017)'
+        source:
+          type: object
+          title: Source
+          description: The schema changes based on the data in the source. Sometimes some fields might not be present
+          properties:
+            action_date:
+              type: string
+              example: '2017-11-16 00:00:00'
+            action_text:
+              type: string
+              example: 'In The Alternative,
+                    For An Extension Of Time To Respond To The <b>Complaint</b>)(Marooney, Richard)
+                    [Transferred from New York Northern on 1/2/2018.] (Entered: 11/20/2017)'
+            boundary:
+              type: string
+              example: 'last'
+            case_id:
+              type: string
+              example: '647206'
+            created_date:
+              type: string
+              example: '2018-01-03 02:27:11.651967'
+            document_id_list:
+              type: array
+              items:
+                type: string
+                example:
+                  - PACER_GANDCE_A_055110449516
+            downloaded_documents_count:
+              type: string
+              example: '0'
+            id:
+              type: string
+              example: 'PC_DB1_647206_2018-01-03 02:27:11.651967'
+            lookup_document_list:
+              type: array
+              items:
+                type: string
+                example:
+                  - "<a href=\"https://ecf.gand.uscourts.gov/doc1/055010449509\" onclick=\"goDLS('/doc1/055010449509','245866','25','','2','1','','');return(false);\">9</a>"
+            order:
+              type: int
+              example: 10
+            parse_document_info_list:
+              type: array
+              items:
+                type: string
+                example:
+                  - "<a href=\"https://ecf.gand.uscourts.gov/doc1/055010449514\" onclick=\"goDLS('/doc1/055010449514','245866','27','','2','1','','');return(false);\">10</a>"
+            state_key_county_key_case_id:
+              type: string
+              example: 'PC_DB1_647206'
+            tag:
+              type: string
+              example: 'DOCKET'
+            total_documents_count:
+              type: string
+              example: '6'
+            updated_date:
+              type: string
+              example: '2018-01-03 02:27:11.651971'
+
+  state_key:
+      type: string
+      example: CA
+      maximum: 4
+
+  county_key:
+    type: string
+    example: LA1
+    maximum: 4
+
+  case_id:
+    type: integer
+    example: 2558
+    maximum: 11
+
+  case_key:
+    type: string
+    minLength: 33
+    maxLength: 33
+    example: GNHCEJRNDYNUIH32GZGXAK3NMRMRY0776
+
+  order_by:
+    type: string
+    enum:
+      - ASC
+      - DESC
+    example: ASC
+
+  CaseGet:
+    type: object
+    case_key:
+      "$ref": "#/definitions/CaseKey"
+
+  CaseEntityInfo:
+    type: object
+    title: CaseInfoRequest
+    properties:
+      state_key:
+        "$ref": "#/definitions/state_key"
+      county_key:
+        "$ref": "#/definitions/county_key"
+      case_id:
+        "$ref": "#/definitions/case_id"
+      page:
+        "$ref": "#/definitions/page_number"
+
+      items_per_page:
+        type: number
+        minimum: 1
+        maximum: 100
+        example: 10
+      order_by:
+        "$ref": "#/definitions/order_by"
+
+      unique_only:
+        type: integer
+        enum:
+          - 0
+          - 1
+        example: 0
+    required:
+      - state_key
+      - county_key
+      - case_id
+      - page
+      - items_per_page
+
+  filing_date:
+    type: string
+    example: "2019-01-01"
+    pattern: "YYYY-MM-DD"
+
+  last_updated:
+    description: The date on which it was updated.
+    type: string
+    pattern: "mm/dd/yyyy hh:mm:ss"
+    example: 01/20/2018 05:51:22
+
+  created_date:
+    description: The date on which it was created.
+    type: string
+    pattern: "mm/dd/yyyy hh:mm:ss"
+    example: 01/20/2018 05:51:22
+
+  last_update_changes_found:
+    description: The date on which update changes found.
+    type: string
+    pattern: "mm/dd/yyyy hh:mm:ss"
+    example: 01/20/2018 05:51:22
+  unicourt_account_id:
+    type: string
+    example: s152698322
+
+  filter_leaf_node:
+    title: ReaponseData
+    type: array
+    items:
+      type: object
+      title: Node
+      properties:
+        id:
+          type: integer
+          description: Uniquely identifies the filter.
+          example: 2
+        level:
+          type: integer
+          description: Describes the level of the filter it belongs.
+          example: 1
+        name:
+          type: string
+          description: Name of the filter value.
+          example: State
+        sort_order:
+          type: integer
+          description: Order of the filter value.
+          example: 7
+        child_count:
+          type: integer
+          description: Signifies whether the current level has children or not. If there is children it gives count of children it contains else 0
+          example: 51
+        additional_data:
+          nullable: true
+          description: Describes additional information for the filter value.
+          example: null
+        internal_data:
+          nullable: true
+          description: Describes internal information for the filter value.
+          example: null
+
+  jurisdiction_filter_all:
+      title: JurisdictionFilter
+      type: object
+      properties:
+        field:
+          type: string
+          example: "level_1_jurisdiction"
+        key:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "State"
+        order:
+          type: integer
+          example: 1
+        children:
+          type: array
+          description: list will be having multiple objecs with different values.
+          items:
+            title: Child
+            type: object
+            properties:
+              field:
+                type: string
+                example: "level_2_jurisdiction"
+              key:
+                type: integer
+                example: 43
+              name:
+                type: string
+                example: "Texas, State Courts"
+              order:
+                type: integer
+                example: 3
+              children:
+                type: array
+                description: list will be having multiple objecs with different values.
+                items:
+                  type: object
+                  properties:
+                    county_name:
+                      type: string
+                      example: "Ngs"
+                    field:
+                      type: string
+                      example: "court_system"
+                    key:
+                      type: integer
+                      example: 171
+                    name:
+                      type: string
+                      example: "Kings County Courts"
+                    order:
+                      type: integer
+                      example: 1
+                    children:
+                      type: array
+                      description: list will be having multiple objecs with different values.
+                      items:
+                        title: Child
+                        properties:
+                          children:
+                            type: array
+                            items:
+                              type: object
+                          field:
+                            type: string
+                            example: "courthouse"
+                          key:
+                            type: integer
+                            example: 684
+                          name:
+                            type: string
+                            example: "Heman Marion Sweatt Travis County Courthouse"
+                          order:
+                            type: integer
+                            example: 7
+
+  case_type_filter_all:
+      title: CaseTypeFilter
+      type: object
+      properties:
+        field:
+          type: string
+          example: "category"
+        key:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Civil"
+        order:
+          type: integer
+          example: 1
+        children:
+          type: array
+          description: list will be having multiple objecs with different values.
+          items:
+            title: Child
+            type: object
+            properties:
+              field:
+                type: string
+                example: group
+              key:
+                type: integer
+                example: 6
+              name:
+                type: string
+                example: Tax
+              order:
+                type: integer
+                example: 3
+              children:
+                type: array
+                description: list will be having multiple objecs with different values.
+                items:
+                  title: Child
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: name
+                    key:
+                      type: integer
+                      example: 46
+                    name:
+                      type: string
+                      example: Tax Claim
+                    order:
+                      type: integer
+                      example: 1
+                    nos_code:
+                      type: array
+                      items:
+                        type: integer
+                        example: 5
+                    children:
+                      type: array
+                      items:
+                        type: object
+
+  case_status_filter_all:
+      title: CaseStatusFilter
+      type: object
+      properties:
+        field:
+          type: string
+          example: "category"
+        key:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Pending"
+        order:
+          type: integer
+          example: 1
+        children:
+          type: array
+          description: list will be having multiple objecs with different values.
+          items:
+            title: Child
+            type: object
+            properties:
+              field:
+                type: string
+                example: "name"
+              key:
+                type: integer
+                example: 6
+              name:
+                type: string
+                example: "Other Pending"
+              order:
+                type: integer
+                example: 3
+              children:
+                type: array
+                items:
+                  type: object
+
+  v5_filing_date:
+    type: string
+    pattern: "yyyy-mm-dd hh:mm:ss"
+    example: "2018-01-20 00:00:00"
+
+  v5_last_update_changes_found:
+    description: The date and time when the case was last fetched from the Court where we found changes in the case information. This date and time is in UTC
+    type: string
+    pattern: "yyyy-mm-dd hh:mm:ss"
+    example: "2018-01-20 05:51:22"
+
+  v5_last_updated:
+    description: The date on which it was updated.
+    type: string
+    pattern: "yyyy-mm-dd hh:mm:ss"
+    example: "2018-01-20 05:51:22"
+
+  v5_created_date:
+    description: The date on which it was created.
+    type: string
+    pattern: "yyyy-mm-dd hh:mm:ss"
+    example: "2018-01-20 05:51:22"
+
+  export_input_file_fields:
+    description: Specify the fields from Input CSV file which need to be included in the export data.
+    type: array
+    items:
+      type: string
+    example:
+      - client_party_id
+      - client_party_name
+
+  export_file:
+    description: If set to true, a file will be generated containing the user specified fields.
+    type: boolean
+    example: true
+
+  case_fields:
+    title: CaseFields
+    description: Mention the fields needed
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - client_party_name_id
+            - client_party_name
+            - matched_party_name
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+            - party_attorney_firm
+        example:
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+
+  party_fields:
+    title: PartyFields
+    description: Mention the fields required
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - client_party_name_id
+            - client_party_name
+            - matched_party_name
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+            - party_attorney_firm
+        example:
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - last_updated_date
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+            - party_attorney_firm
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+      row_per_attorney:
+        description: Specify if the data has to be generated row per attorney.
+        type: boolean
+        default: false
+        example: true
+
+  attorney_fields:
+    title: AttorneyFields
+    description: Mention the fields required
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - attorney_fullname
+            - attorney_bar_number
+            - attorney_firm
+            - attorney_phone_num
+            - attorney_fax_num
+            - attorney_street_address
+            - attorney_city
+            - attorney_state
+            - attorney_country
+            - attorney_zip
+            - attorney_emails
+            - client_party_name_id
+            - client_party_name
+            - matched_party_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+        example:
+          - attorney_fullname
+          - attorney_bar_number
+          - attorney_firm
+          - attorney_phone_num
+          - attorney_fax_num
+          - attorney_street_address
+          - attorney_city
+          - attorney_state
+          - attorney_country
+          - attorney_zip
+          - attorney_emails
+          - filing_date
+          - case_url
+          - case_number
+          - case_name
+          - jurisdiction
+          - courthouse
+          - case_type_category
+          - case_type_subcategory
+          - case_type
+          - case_status_category
+          - case_status
+          - judges
+          - state
+          - county
+          - party_id
+          - party_fullname
+          - party_type
+          - party_entity_type
+          - party_representation_type
+          - party_attorney
+          - party_attorney_firm
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+      row_per_party:
+        description: Specify if the data has to be generated row per party.
+        type: boolean
+        default: false
+        example: true
+
+  range:
+    title: Range
+    type: object
+    properties:
+      from:
+        type: number
+        minimum: 1
+        maximum: 9999
+      to:
+        type: number
+        minimum: 2
+        maximum: 10000
+
+  export_job_export_data_types:
+    description: You may specify any of these.
+    type: object
+    title: DataTypeAndFields
+    properties:
+      case:
+        $ref : "#/definitions/case_fields"
+      party:
+        $ref : "#/definitions/party_fields"
+      attorney:
+        $ref : "#/definitions/attorney_fields"
+
+  job_for_case_key:
+    description: use this to set up export job for case key
+    title: Case Key
+    type: object
+    properties:
+      case_keys:
+        type: array
+        items:
+          type: string
+          example:
+            - "FJCRSHJPIAYUUFQWHRKGRBDEMBIRE0920"
+            - "FJCRSHJPIAYUUFQWHRKGRBDEMBIRE0542"
+    required:
+      - case_keys
+    additionalProperties: false
+
+  job_for_search_id:
+    description: use this to set up export job for search ID
+    type: object
+    title: Search ID
+    properties:
+      search_id:
+        description: specify the ID of the search which is already configured.
+        type: integer
+        exanple: 
+      range:
+        $ref: "#/definitions/range"
+    required:
+      - search_id
+      - range
+
+  search:
+    description: use this to set up export job for search query
+    type: object
+    title: Search Query
+    properties:
+      query:
+        "$ref": "#/definitions/search_query"
+      sort_field:
+        type: string
+        enum:
+          - filing_date_ts
+          - last_updated_ts
+          - weight_sum
+        example: weight_sum
+      sort_by:
+        type: string
+        enum:
+          - desc
+          - asc
+        example: desc
+      page:
+        "$ref": "#/definitions/page_number"
+      items_per_page:
+        type: number
+        minimum: 10
+        maximum: 100
+        example: 10
+      filters:
+        type: array
+        items:
+          anyOf:
+            - "$ref": "#/definitions/search_case_status"
+            - "$ref": "#/definitions/search_case_type"
+            - "$ref": "#/definitions/search_jurisdiction_v3"
+            - "$ref": "#/definitions/search_filing_date_range"
+            - "$ref": "#/definitions/search_dollar_amount_range"
+      range:
+          $ref: "#/definitions/range"
+    required:
+      - query
+      - sort_field
+      - page
+      - items_per_page
+      
+
+  entity_search_columns:
+    type: string
+    minLength: 3
+    maxLength: 250
+    pattern: "\\w+"
+    description: Column name in the input CSV to be matched
+    example: party_name
+
+  entity_search_query:
+    type: object
+    title: SearchCriteria
+    properties:
+      terms:
+        title: SearchCriteria
+        description: Pattern for each search terms, used for doing operations like AND / OR, if there are two
+          search terms then the criteria will be (1 AND 2),  if there are 3 condition then the criteria will be
+          ((1 AND 2) AND 3).
+        type: object
+        properties:
+          "1":
+            type: object
+            title: "SearchTerms"
+            properties:
+              search_terms:
+                type: array
+                minItems: 1
+                maxItems: 20
+                items:
+                  "$ref": "#/definitions/entity_search_columns"
+              attribute:
+                type: string
+                enum:
+                  - case_name
+                  - party_fullname
+                  - attorney_fullname
+                  - judge_fullname
+                  - case_number
+                  - docket
+                  - norm_party_id
+                  - norm_attorney_id
+                  - norm_law_firm_id
+                  - norm_judge_id
+                  - all
+              proximity:
+                type: string
+                enum:
+                  - '0'
+                  - "-1"
+              scope:
+                type: string
+                enum:
+                  - match_any
+                  - match_all
+              operator:
+                type: string
+                enum:
+                  - is
+                  - not
+              additional_attributes:
+                type: array
+                items:
+                  title: AdditionalAttribute
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      enum:
+                        - party_type
+                        - party_representation_type
+                        - party_entity_type
+                      example: party_type
+                    value:
+                      type: integer
+                      minimum: 1
+                      example: 1
+            required:
+              - search_terms
+              - attribute
+              - proximity
+              - scope
+              - operator
+      criteria:
+        type: string
+        minLength: 1
+        example: "(1)"
+        description:
+    required:
+      - criteria
+      - terms
+
+  entity_search:
+    description: use this to set up export for entity search with CSV input
+    type: object
+    title: Entity Search
+    properties:
+      input_csv_file_path:
+        type: string
+        example: "entity_names.csv"
+      query:
+        "$ref": "#/definitions/entity_search_query"
+        example: weight_sum
+      filters:
+        type: array
+        items:
+          anyOf:
+            - "$ref": "#/definitions/search_case_status"
+            - "$ref": "#/definitions/search_case_type"
+            - "$ref": "#/definitions/search_jurisdiction_v3"
+            - "$ref": "#/definitions/search_filing_date_range"
+            - "$ref": "#/definitions/search_dollar_amount_range"
+    required:
+      - input_csv_file_path
+      - query
+
+  job_name:
+    title: JobName
+    type: string
+    example: "Example Job"
+
+  job_criteria:
+    title: JobCriteria
+    type: object
+    oneOf:
+      - $ref: "#/definitions/job_for_case_key"
+      - $ref: "#/definitions/search"
+      - $ref: "#/definitions/entity_search"
+      - $ref: "#/definitions/job_for_search_id"
+    example:
+      page: 1
+      query:
+        terms:
+          '1':
+            scope: match_any
+            operator: is
+            attribute: all
+            condition: OR
+            proximity: "-1"
+            search_terms:
+            - courts
+        criteria: "(1)"
+      filters:
+      - field: filing_date
+        options:
+        - field: last_n_days
+          options:
+          - '90'
+      - field: jurisdiction
+        options:
+        - field: court_system
+          options:
+          - 73
+      - field: case_type
+        options:
+        - field: group
+          options:
+          - 1
+      sort_by: desc
+      max_result: '10000'
+      sort_field: filing_date_ts
+      items_per_page: 10
+
+  export_options:
+    title: ExportOptions
+    type: object
+    properties:
+      file_extension:
+        type: string
+        enum:
+          - csv
+          - xlsx
+          - json
+          - tsv
+        example: csv
+      data:
+        type: object
+        $ref: "#/definitions/export_job_export_data_types"
+
+      one_time_export_criteria:
+        description: Specify the filing date range for one time export.
+        type: object
+        title: OneTimeExport
+        properties:
+          from_filing_date:
+            type: string
+            example: "2015-01-01"
+          to_filing_date:
+            type: string
+            example: "2020-01-15"
+
+  job_is_enabled:
+    description: Specify if job scheduling is enabled.
+    title: IsEnabled
+    type: boolean
+    example: true
+    default: true
+
+  job_schedule:
+    description: Define job schedule time.
+    title: JobSchedule
+    type: object
+    nullable: true
+    properties:
+      type:
+        type: string
+        nullable: true
+        enum:
+          - days_of_month
+          - days_of_week
+        example: days_of_month
+      args:
+        description: "1=Monday, 2=Tuesday and so on. If need to run on particular days of month pass the dates as 1, 15"
+        nullable: true
+        type: array
+        items:
+          type: int
+          pattern: ^([1-9]|[12][0-9]|3[01])$
+        example:
+          - 1
+          - 16
+
+  webhook:
+    description: Webhook URLs
+    title: Webhook
+    type: array
+    items:
+      type: string
+    example:
+      -  "http://callback_here_on_success.com/"
+
+  webhook_response:
+    type: object
+    description: webhook message
+    title: WebhookResponse
+    properties:
+      name: 
+        type: string
+        description: File name
+        example: "Case_File_2020_05_01_17:01:01.csv"
+      path:
+        type: string
+        description: File destination
+        example: "s3://ctf.unicourt.com/search/test/s1561936227/Nowland_Party_1569821869_2019-10-01.csv"
+      size:
+        type: string
+        description: File size
+        example: "100 KB"
+
+  job_run_after_create:
+    description: Specify whether to run the Job immediately.
+    title: Action
+    type: boolean
+    default: false
+    example: false

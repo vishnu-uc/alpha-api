@@ -1,0 +1,167 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    '401':
+      description: "Unauthorized - Similar to 403 Forbidden, but specifically for use when authentication is
+      required and has failed or has not yet been provided"
+      content:
+        application/json:
+          schema:
+            type: object
+            title: Unauthorized
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            NO TOKEN :
+              value:
+                message: "The `Token` keyword on HTTP Header `Authorization` is not passed."
+                type: "AUTHORIZATION"
+                code: 190
+            NO AUTHORIZATION:
+              value:
+                message: "HTTP Header `Authorization` is not passed."
+                type: "AUTHORIZATION"
+                code: 190
+            INVALID TOKEN:
+              value:
+                message: "Authenticate to get the requested response."
+                type: "AUTHORIZATION"
+                code: 190
+
+    '404':
+      description: "Requested page is Not found."
+      content:
+        application/json:
+          schema:
+            type: object
+            title: PageNotFound
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            URL NOT FOUND:
+              value:
+                message: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."
+                type: "URL_NOT_FOUND"
+                code: 404
+
+
+    '412':
+      description: "Bad Request - The server cannot or will not process the request due to an apparent
+         client error Media type"
+      content:
+        application/json:
+          schema:
+            type: object
+            title: BadRequest
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            INVALID JSON SCHEMA:
+              value:
+                message: "Schema Validation Failed for Set DataDelivery Run Status"
+                type: "INVALID_JSON_SCHEMA"
+                code: 100
+
+
+
+    '500':
+      description: "Internal Server Error - A generic error message, given when an unexpected condition
+                  was encountered and no more specific message is suitable"
+      content:
+        application/json:
+          schema:
+            type: object
+            title: InternalServerError
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            INTERNAL SERVER ERROR:
+              value:
+                message: "Has encountered a situation it doesn't know how to handle."
+                type: "INTERNAL_SERVER_ERROR"
+                code: 1200
+
+    '204':
+      description: "There is no content to send for this request"
+
+
+    400:
+      description: "Client Error - The server cannot or will not process the request due to an apparent client error"
+      content:
+        application/json:
+          schema:
+            type: object
+            title: ClientError
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            BAD REQUEST:
+              value:
+                message: "he server will not process the request due to something that is perceived to be an error."
+                type: "CLIENT_ERROR"
+                code: 100
+              
+    422:
+      description: "Unprocessable Entity - Invalid post paramters."
+      content:
+        application/json:
+          schema:
+            type: object
+            title: UnprocessableEntity
+            properties:
+              message:
+                type: string
+                description: The response message.
+              type:
+                type: string
+                description: Error type.
+              code:
+                type: int
+                description: Error Code
+          examples:
+            BAD REQUEST:
+              value:
+                message: "The request was well-formed but was unable to be followed due to semantic errors."
+                type: "UNPROCESSABLE_ENTITY"
+                code: 100

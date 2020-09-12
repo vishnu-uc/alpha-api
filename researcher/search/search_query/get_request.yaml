@@ -1,0 +1,235 @@
+openapi: 3.0.0
+
+components:
+  parameters:
+    qParam:
+      in: query
+      name: q
+      schema:
+        type: string
+        minLength: 3,
+        maxLength: 250
+      example: motion to compel
+      required: true
+      description: |
+        The url encoded query you are searching for.
+        The query can be as simple as a keyword, but supports many additional options and filters.
+        All options are documented above</a>.
+
+    atParam:
+      in: query
+      name: at
+      schema:
+        type: string
+        enum: [case_name, party_fullname, attorney_fullname, judge_fullname, case_number, docket, norm_party_id,
+               norm_attorney_id, norm_law_firm_id, norm_judge_id]
+      default: all
+      example: case_number
+      description: Attribute.
+
+    juParam:
+      in: query
+      name: ju
+      schema:
+        type: array
+        minItems: 1
+        items:
+          type: integer
+      explode: false
+      example: [128, 129]
+      description: |
+        Jurisdiction filter.
+        - Minimum items: 1
+
+    ctParam:
+      in: query
+      name: ct
+      schema:
+        type: array
+        items:
+          type: integer
+      style: form
+      example: [2240, 8]
+      description: |
+        Case type filter.
+        - Minimum items: 1
+
+    csParam:
+      in: query
+      name: cs
+      schema:
+        type: array
+        items:
+          type: integer
+      explode: false
+      example: [520, 24]
+      description: |
+        Case status filter.
+        - Minimum items: 1
+    dtParam:
+      in: query
+      name: dt
+      schema:
+        type: array
+        items:
+          type: integer
+      explode: false
+      example: [1024]
+      description: |
+        Docket tag filter.
+        - Minimum items: 1
+
+    fdFromParam:
+      in: query
+      name: fd-from
+      schema:
+        type: sting
+        format: date
+        pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+      example: "2020-01-01"
+      description: |
+        Filing date range From-date filter
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    fdToParam:
+      in: query
+      name: fd-to
+      schema:
+        type: sting
+        format: date
+      example: "2020-01-01"
+      description: |
+        Filing date range To-date filter
+          - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+          - format: date
+
+    cdFromParam:
+      in: query
+      name: cd-from
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Created date range From-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    cdToParam:
+      in: query
+      name: cd-to
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Created date range To-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    adFromParam:
+      in: query
+      name: ad-from
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Action date range From-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    adToParam:
+      in: query
+      name: ad-to
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Action date range To-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    lcfFromParam:
+      in: query
+      name: lcf-from
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Last update changes found From-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    lcfToParam:
+      in: query
+      name: lcf-to
+      schema:
+        type: string
+        format: date
+      example: "2020-01-01"
+      description: |
+        Last update changes found To-date filter.
+        - pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+        - format: date
+
+    daFromParam:
+      in: query
+      name: da-from
+      schema:
+        items:
+          type: string
+      example: 1000
+      description: Dollar amount range From filter.
+
+    daToParam:
+      in: query
+      name: da-to
+      schema:
+        type: string
+      example: 5000
+      description: Dollar amount range To filter.
+
+    pageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        example: 1
+      description: |
+        Page number.
+        - minimum: 1
+        - maximum: 100
+    sortParam:
+      in: query
+      name: sort
+      schema:
+        type: string
+        enum: [filing_date, relevancy]
+      default: filing_date_ts
+      example: relevancy
+      description: Sort field.
+
+    orderParam:
+      in: query
+      name: order
+      schema:
+        type: string
+        enum: [asc,desc]
+      default: desc
+      example: desc
+      description: Sort order.
+
+    limitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+      default: 10
+      example: 10
+      description: items per page.

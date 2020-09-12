@@ -1,0 +1,495 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    child_node:
+      description: The request has succeeded
+      content:
+        application/json:
+          schema:
+            "$ref": "../../../definitions.yaml#/definitions/filter_leaf_node"
+          examples:
+            JURISDICTION:
+              value:
+                [
+                {
+                  "additional_data": {
+                    "state_jurisdiction": "Pacer",
+                    "state_key": "RC"
+                  },
+                  "child_count": 0,
+                  "id": 166,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Pacer",
+                  "sort_order": 46
+                },
+                {
+                  "additional_data": {
+                    "state_jurisdiction": "Pacer",
+                    "state_key": "PC"
+                  },
+                  "child_count": 6,
+                  "id": 167,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Pacer",
+                  "sort_order": 47
+                }
+                ]
+            DOCKET_TAG:
+              value:
+                [
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12288,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Summary Judgment",
+                  "sort_order": 2307
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12289,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Implead",
+                  "sort_order": 2308
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12290,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Intervene",
+                  "sort_order": 2309
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12291,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Judgment as a Matter of Law",
+                  "sort_order": 2310
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12292,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Vacate Judgment",
+                  "sort_order": 2311
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12293,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Compel Responses",
+                  "sort_order": 2312
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12294,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Quash",
+                  "sort_order": 2313
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12295,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Dismiss",
+                  "sort_order": 2314
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12296,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Preliminary Injunction",
+                  "sort_order": 2315
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12297,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Judgment Notwithstanding Verdict",
+                  "sort_order": 2316
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12298,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Peremptory Challenge",
+                  "sort_order": 2317
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12299,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Set Aside Default Judgment",
+                  "sort_order": 2318
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12300,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion In Limine",
+                  "sort_order": 2319
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12301,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Sanctions",
+                  "sort_order": 2320
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12302,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for New Trial",
+                  "sort_order": 2321
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12303,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion for Change of Venue",
+                  "sort_order": 2322
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 12304,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Motion to Sequester Jury",
+                  "sort_order": 2323
+                }
+                ]
+            CASE_TYPE:
+              value:
+                [
+                {
+                  "additional_data": null,
+                  "child_count": 12,
+                  "id": 192,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Contract",
+                  "sort_order": 1983
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 8,
+                  "id": 193,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Forfeiture",
+                  "sort_order": 1996
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 8,
+                  "id": 194,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Prisoner",
+                  "sort_order": 2005
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 4,
+                  "id": 195,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Immigration",
+                  "sort_order": 2014
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 13,
+                  "id": 196,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Civil Right",
+                  "sort_order": 2019
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 3,
+                  "id": 197,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Tax",
+                  "sort_order": 2033
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 37,
+                  "id": 198,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Bankruptcy",
+                  "sort_order": 2037
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 2,
+                  "id": 199,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Infraction",
+                  "sort_order": 2075
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 7,
+                  "id": 200,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Government Benefit",
+                  "sort_order": 2078
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 24,
+                  "id": 201,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Other",
+                  "sort_order": 2086
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 4,
+                  "id": 202,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Intellectual Property",
+                  "sort_order": 2111
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 3,
+                  "id": 203,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Small Claim",
+                  "sort_order": 2116
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 15,
+                  "id": 204,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Personal Injury",
+                  "sort_order": 2120
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 7,
+                  "id": 205,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Probate",
+                  "sort_order": 2136
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 11,
+                  "id": 206,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Family",
+                  "sort_order": 2144
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 20,
+                  "id": 207,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Property",
+                  "sort_order": 2156
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 4,
+                  "id": 208,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Finance",
+                  "sort_order": 2177
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 11,
+                  "id": 209,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Labor",
+                  "sort_order": 2182
+                }
+                ]
+            CASE_STATUS:
+              value:
+                [
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 522,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Case Initiated",
+                  "sort_order": 2216
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 523,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Discovery",
+                  "sort_order": 2217
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 524,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Trial",
+                  "sort_order": 2218
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 525,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Appeal",
+                  "sort_order": 2219
+                },
+                {
+                  "additional_data": null,
+                  "child_count": 0,
+                  "id": 526,
+                  "internal_data": {
+                    "hide": false
+                  },
+                  "level": 2,
+                  "name": "Other Pending",
+                  "sort_order": 2220
+                }
+                ]

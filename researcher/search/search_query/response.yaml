@@ -1,0 +1,172 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    search_api:
+      description: Everything is working fine
+      content:
+        application/json:
+          schema:
+            title: SearchResponse
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  type: object
+                  title: SearchResult
+                  properties:
+                    case:
+                      type: object
+                      title: Case
+                      properties:
+                        case_id:
+                          type: string
+                          example: FNDBUHRQIEZEWFYXNEZWXBTJLZJQ40930
+                        case_number:
+                          type: string
+                          example: 18STFL06463
+                        case_name:
+                          type: string
+                          example: PATTON, TARYN VS PATTON, JONATHAN
+                        case_name_snippet:
+                          type: string
+                          example: <b>PATTON, TARYN VS PATTON, JONATHAN</b>
+                        docket_snippet:
+                          type: string
+                          example: 2018-05-25 Request - DV Prevention w/Minor Child (w/in Existing Case); Filed by Petitioner! 2018-05-25 Petition - Dissolution w/ Minor Child; Filed by Petitioner! 2018-05-25 Notice - Case Assignment! 2018-05-25 <b>Order</b> - Financial Information (FAM 111)
+                        case_type:
+                          type: string
+                          example: Marriage Dissolution/Divorce
+                        case_type_id:
+                          type: integer
+                          example: 2197
+                        case_type_category:
+                          type: string
+                          example: Civil
+                        case_type_category_id:
+                          type: integer
+                          example: 8
+                        case_type_group:
+                          type: string
+                          example: Family
+                        case_type_group_id:
+                          type: integer
+                          example: 206
+                        case_status_category:
+                          type: string
+                          example: Pending
+                        case_status_category_id:
+                          type: integer
+                          example: 25
+                        case_status:
+                          type: string
+                          example: Other Pending
+                        case_status_id:
+                          type: integer
+                          example: 526
+                        courthouse:
+                          type: string
+                          example: Stanley Mosk Courthouse
+                        courthouse_id:
+                          type: integer
+                          example: 131162
+                        court_system:
+                          type: string
+                          example: Los Angeles County Superior Courts
+                        court_system_id:
+                          type: integer
+                          example: 32774
+                        state:
+                          type: string
+                          example: CA
+                        state_id:
+                          type: integer
+                          example: 129
+                        filing_date:
+                          type: string
+                          format: date
+                          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
+                          example: "2018-05-25"
+                        created_date:
+                          type: string
+                          format: date time
+                          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$
+                          example: "2017-11-15 05:47:44"
+                        last_updated_date:
+                          type: string
+                          format: date time
+                          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$
+                          example: "2018-05-25 05:47:44"
+                        last_update_changes_found:
+                          description: The date and time when the case was last fetched from the Court where we found changes in the case information. Use this field to compare with the case information cached in your database to decide whether case has updates. This date and time is in UTC. Formatted as YYYY-MM-DD HH:MM:SS
+                          type: string
+                          format: date time
+                          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$
+                          example: "2018-04-20 05:47:44"
+                    attorneys:
+                      type: array
+                      items:
+                        type: object
+                        title: Attorney
+                        properties:
+                          fullname:
+                            type: string
+                            example: TRIEU JOHN D. ESQ.
+                          fullname_snippet:
+                            type: string
+                            example: TRIEU <b>JOHN</b> D. ESQ.
+                          attorney_type:
+                            type: string
+                            example: Attorney
+                          firm:
+                            type: string
+                            example: null
+                          firm_snippet:
+                            type: string
+                            example: null
+                    parties:
+                      type: array
+                      items:
+                        type: object
+                        title: Party
+                        properties:
+                          fullname:
+                            type: string
+                            example: CHUNG JOHN JIYUN
+                          fullname_snippet:
+                            type: string
+                            example: CHUNG <b>JOHN</b> JIYUN
+                          party_type:
+                            type: string
+                            example: Petitioner
+                          entity_type:
+                            type: string
+                            example: 0
+                          representation_type:
+                            type: string
+                            example: Attorney Represented
+                    judges:
+                      type: array
+                      items:
+                        type: object
+                        title: Judge
+                        properties:
+                          fullname:
+                            type: string
+                            example: CHEMELESKI, JOHN
+                          fullname_snippet:
+                            type: string
+                            example: CHEMELESKI, <b>JOHN</b>
+              items_per_page:
+                description: Request data will be returned.
+                type: integer
+                example: 5
+              page:
+                description: Request data will be returned.
+                type: integer
+                example: 1
+              total_matches:
+                description: The number of matches that found in the index.
+                type: integer
+                example: 1

@@ -1,0 +1,130 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    all_nodes:
+      description: The request has succeeded
+      content:
+        application/json:
+          schema:
+            title: MasterDataResponse
+            type: array
+            items:
+              type: object
+              title: Node
+              properties:
+                id:
+                  type: integer
+                  description: Uniquely identifies the filter.
+                  example: 2
+                level:
+                  type: integer
+                  description: Describes the level of the filter it belongs.
+                  example: 1
+                name:
+                  type: string
+                  description: Name of the filter value.
+                  example: State
+                sort_order:
+                  type: integer
+                  description: Order of the filter value.
+                  example: 7
+                additional_data:
+                  nullable: true
+                  description: Describes additional information for the filter value.
+                  type: object
+                  example: null
+                internal_data:
+                  nullable: true
+                  description: Describes internal information for the filter value.
+                  type: object
+                children:
+                  type: array
+                  items:
+                    type: object
+                    title: Node
+                    properties:
+                      id:
+                        type: integer
+                        description: Uniquely identifies the filter.
+                        example: 129
+                      level:
+                        type: integer
+                        description: Describes the level of the filter it belongs.
+                        example: 2
+                      name:
+                        type: string
+                        description: Name of the filter value.
+                        example: California
+                      sort_order:
+                        type: integer
+                        description: Order of the filter value.
+                        example: 9
+                      additional_data:
+                        nullable: true
+                        description: Describes additional information for the filter value.
+                        example: null
+                      internal_data:
+                        nullable: true
+                        description: Describes internal information for the filter value.
+                        example: null
+                      children:
+                        type: array
+                        items:
+                          type: object
+                          title: Node
+                          properties:
+                            id:
+                              type: integer
+                              description: Uniquely identifies the filter.
+                              example: 8300
+                            level:
+                              type: integer
+                              description: Describes the level of the filter it belongs.
+                              example: 3
+                            name:
+                              type: string
+                              description: Name of the filter value.
+                              example: Los Angeles County Superior Courts
+                            sort_order:
+                              type: integer
+                              description: Order of the filter value.
+                              example: 290
+                            additional_data:
+                              nullable: true
+                              description: Describes additional information for the filter value.
+                              example: null
+                            internal_data:
+                              nullable: true
+                              description: Describes internal information for the filter value.
+                              example: null
+                            children:
+                              type: array
+                              items:
+                                type: object
+                                title: Node
+                                properties:
+                                  id:
+                                    type: integer
+                                    description: Uniquely identifies the filter.
+                                    example: 131148
+                                  level:
+                                    type: integer
+                                    description: Describes the level of the filter it belongs.
+                                    example: 4
+                                  name:
+                                    type: string
+                                    description: Name of the filter value.
+                                    example: Inglewood Courthouse
+                                  sort_order:
+                                    type: integer
+                                    description: Order of the filter value.
+                                    example: 663
+                                  additional_data:
+                                    nullable: true
+                                    description: Describes additional information for the filter value.
+                                    example: null
+                                  internal_data:
+                                    nullable: true
+                                    description: Describes internal information for the filter value.
+                                    example: null
