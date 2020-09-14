@@ -77,7 +77,7 @@ paths:
         '401':
           $ref: "common_response.yaml#/components/responses/401"
 
-  /search/{search_id}/:
+  /search/scheduled/{search_id}/:
     get:
       tags:
         - Search APIs
