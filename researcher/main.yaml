@@ -77,36 +77,6 @@ paths:
         '401':
           $ref: "common_response.yaml#/components/responses/401"
 
-  /search/scheduled/{search_id}/:
-    get:
-      tags:
-        - Search APIs
-      security:
-        - bearerAuth: []
-      description: |
-        This API is used to get saved search for a search id.
-      summary:
-        Returns saved search for given search_id from the system.
-      parameters:
-        - $ref: "#/components/parameters/client_account_id_param"
-        - in: path
-          name: search_id
-          example: 1024
-          schema:
-            type: string
-          required: true
-          description: Saved Search ID.
-      responses:
-        '200':
-          $ref: "search/search_get/response.yaml#/components/responses/search_get"
-        '500':
-          $ref: "common_response.yaml#/components/responses/500"
-        '404':
-          $ref: "common_response.yaml#/components/responses/404"
-        '401':
-          $ref: "common_response.yaml#/components/responses/401"
-        '204':
-          $ref: "common_response.yaml#/components/responses/204"
 
   /master-data/{master_data_type}:
     get:
