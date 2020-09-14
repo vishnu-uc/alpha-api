@@ -7,7 +7,7 @@ components:
       content:
         application/json:
           schema:
-            "$ref": "../../../definitions.yaml#/definitions/filter_leaf_node"
+            "$ref": "../../definitions.yaml#/definitions/filter_leaf_node"
           examples:
             JURISDICTION:
               value:

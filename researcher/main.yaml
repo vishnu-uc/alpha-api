@@ -1,18 +1,14 @@
-
 openapi: 3.0.0
 
 info:
   title: Search API's [Alpha]
   description: Search API's
-  version: "v5.x.x Alpha"
-  contact:
-    name: Abhilash Joseph C
-    email: abhilash@unicourt.com
+  version: "v2 Alpha"
 
 servers:
-  - url: "http://localhost:9876/internal/v5"
+  - url: "http://localhost:9876/v2"
     description: Local server
-  - url: "http://staging-alb.unicourt.internal:9876/internal/v5"
+  - url: "http://staging-alb.unicourt.internal:9876/v2"
     description: Staging server
 
 paths:
@@ -34,12 +30,12 @@ paths:
         | **( … )** |Parenthesis may be used to group sets of terms of connectors| **personal (injury OR fall) ~5** - Find cases with the word personal within five words of the word injury or fall.|
         | **jurisdiction**|Find cases in a particular court|**jurisdiction:(New York)** - Find cases in New York courts jurisdiction:(federal AND NOT state) Find cases in the federal court, but not in state courts.|
         |**status**|Find cases for a particular case status|**status: (Disposed)** - all disposed cases.<br> **status:(Pending AND Appeal)** Find all pending and appeal cases.|
-        | **case_type**|Find cases with the specified case type | **case_type:(Property)** - cases with case type “property”. <br>**case_type:(Bankruptcy AND Contract)** - Find cases with case type “bankruptcy” and “contract”.|
+        | **case_type**|Find cases with the specified case type | **case_type:(Property)** - cases with case type “property”. <br>**case_type:(Bankruptcy AND Contract)** - Find cases with case type “bankruptcy” and “contract”.<br>**case_type:(civil AND group:Personal Injury AND name:Motor)** - Find cases with case type category “civil” AND group “Personal Injury” AND name matching “Motor”|
         | **case_number** |Find text  in a particular case_number field | **case_number: 2020-L-007212** - Find cases whose case number matches given case number number.|
         | **case_name** |Find text  in a particular case_name field| **case_name: THOMAS P. CARNEY, INC. VS BEHLER JAMES Et Al** - Find cases whose case name matches given terms.|
         | **judge** |Find documents in a case involving a particular judge | **judge:Posner** - Find cases involving Judge Posner.|
         | **party** | Find documents in a case involving a particular party| **party:Apple** - Find cases involving apple. |
-        | **party_type** | Find cases with the specified party type | **party_type:(plaintiff)** - Find cases with party type “plaintiff”<br> **party_type:(defendant AND attorney represented)** - Find cases where party is acting as defendant and represented by the attorney.|
+        | **party_type** | Find cases with the specified party type | **party_type:(plaintiff)** - Find cases with party type “plaintiff”<br> **party_type:(defendant AND representation:attorney represented)** - Find cases where party is acting as defendant and represented by the attorney.|
         | **firm** |Find documents in a case involving a particular firm | **firm:(“Weil Gotshal”)** - Find cases involving Weil Gotshal. |
         | **attorney** | Find documents in a case involving a particular attorney | **attorney:(David Boies) ~4** - Find cases involving the attorney David Boies. |
         | **from:[date] <br> to:[date]** | Date filters allow you to filter cases by the date they were filed. These dates are inclusive. | **from:3/1/2015** - Find cases no earlier than March 1, 2015<br> **from:2014 to:2015** - Find cases from Jan. 1, 2014 to Dec. 31, 2015,<br> **from:-5days to:-1days** - Find cases from 5 days ago to yesterday.|
@@ -57,9 +53,9 @@ paths:
         ## Party Sub Filter Examples
         |Example |Explanation |
         |---|---|
-        |**party:(name:google type:plaintiff)**|Find cases where Google is acting as the plaintiff.|
-        |**party:(name:google firm:(name:(dla piper)))**|Find cases where google is represented by the firm DLA Piper.|
-        |**party:(name:google attorney:"john smith") type:defendant)**|Find cases where google is acting as a defendant and represented by the attorney John Smith.|
+        |**party:(name:google AND party_type:plaintiff)**|Find cases where Google is acting as the plaintiff.|
+        |**party:(name:google AND firm:dla piper)**|Find cases where google is represented by the firm DLA Piper.|
+        |**party:(name:google AND representation:attorney represented AND attorney:"john smith" AND party_type:defendant)**|Find cases where google is acting as a defendant and represented by the attorney John Smith.|
 
 
 
@@ -81,27 +77,36 @@ paths:
         '401':
           $ref: "common_response.yaml#/components/responses/401"
 
-#  /search/advanced/query/:
-#    post:
-#      security:
-#        - bearerAuth: []
-#      tags:
-#        - Search APIs
-#      description: |
-#      summary: search any number keyword with multiple criterias and filters
-#      parameters:
-#        - $ref: "#/components/parameters/client_account_id_param"
-#      requestBody:
-#        $ref: "search/search_query/v2_request.yaml#/components/requestBodies/search_api"
-#      responses:
-#        '200':
-#          $ref: "search/search_query/v2_response.yaml#/components/responses/search_api"
-#        '500':
-#          $ref: "common_response.yaml#/components/responses/500"
-#        '404':
-#          $ref: "common_response.yaml#/components/responses/404"
-#        '401':
-#          $ref: "common_response.yaml#/components/responses/401"
+  /search/{search_id}/:
+    get:
+      tags:
+        - Search APIs
+      security:
+        - bearerAuth: []
+      description: |
+        This API is used to get saved search for a search id.
+      summary:
+        Returns saved search for given search_id from the system.
+      parameters:
+        - $ref: "#/components/parameters/client_account_id_param"
+        - in: path
+          name: search_id
+          example: 1024
+          schema:
+            type: string
+          required: true
+          description: Saved Search ID.
+      responses:
+        '200':
+          $ref: "search/search_get/response.yaml#/components/responses/search_get"
+        '500':
+          $ref: "common_response.yaml#/components/responses/500"
+        '404':
+          $ref: "common_response.yaml#/components/responses/404"
+        '401':
+          $ref: "common_response.yaml#/components/responses/401"
+        '204':
+          $ref: "common_response.yaml#/components/responses/204"
 
   /master-data/{master_data_type}:
     get:
@@ -122,10 +127,6 @@ paths:
             enum: [jurisdiction, case_type, case_status, docket_tag, party_type, representation_type]
           required: true
           description: Master Data Type Requested.
-        - in: header
-          name: client_account_id
-          required: true
-          type: string
       responses:
         '200':
           $ref: "filter/root_node/response.yaml#/components/responses/root_node"
@@ -163,10 +164,6 @@ paths:
             type: integer
           required: true
           description: Master Data ID for which child nodes are requested.
-        - in: header
-          name: client_account_id
-          required: true
-          type: string
       responses:
         '200':
           $ref: "filter/child_node/response.yaml#/components/responses/child_node"
