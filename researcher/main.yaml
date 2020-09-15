@@ -46,7 +46,7 @@ paths:
         | **num_attorney** | Search for cases with a specified number of attorneys involved. | **num_attorney:[2 TO 40]** - Find cases involving 2 to 40 attorneys. |
         | **date_filed** | Search for cases based on the most recently filed in the unicourt. | **date_filed:(from:3/15/2015 to:12/1/2016)** - Find where the most recently filed cases between March 15, 2015 and December 1, 2016 (inclusive). |
         | **date_created** | Search for cases based on the time they were added to unicourt. | **date_created:(from:-3days)** - Find cases that were created in the past three days. |
-        | **date_last_updated** | &nbsp;Search for cases based on time they were last updated on unicourt. | **date_last_updated:(from:-60days to:-30days)** - Find cases that were last updated on Docket Alarm from 60 days ago to 30 days ago. |
+        | **date_last_updated** | &nbsp;Search for cases based on time they were last updated on unicourt. | **date_last_updated:(from:-60days to:-30days)** - Find cases that were last updated on unicourt from 60 days ago to 30 days ago. |
         | **\*** |Find similar words with variations on single characters. | **wom\*n** - Find documents containing either “woman” or “women” |
         | **nos** | Find cases by Nature of Suit Codes. | **nos:1730** |
         <br><br>
