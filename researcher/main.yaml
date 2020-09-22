@@ -61,7 +61,6 @@ paths:
 
       summary: search any keyword with attribute and filters.
       parameters:
-        - $ref: "#/components/parameters/client_account_id_param"
         - $ref: "search/search_query/get_request.yaml#/components/parameters/qParam"
         - $ref: "search/search_query/get_request.yaml#/components/parameters/pageParam"
         - $ref: "search/search_query/get_request.yaml#/components/parameters/sortParam"
@@ -162,19 +161,3 @@ paths:
           $ref: "common_response.yaml#/components/responses/401"
         '204':
           $ref: "common_response.yaml#/components/responses/204"
-
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  parameters:
-    client_account_id_param:
-      in: header
-      description: Client account id for authorization
-      name: client_account_id
-      required: true
-      type: string
-      example: researcher
