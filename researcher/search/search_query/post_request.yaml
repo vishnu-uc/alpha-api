@@ -1,0 +1,977 @@
+openapi: 3.0.0
+
+components:
+  requestBodies:
+    search_api:
+      required: true
+      content:
+          application/json:
+            schema:
+              type: object
+              title: "SearchQueryRequest"
+              properties:
+                query:
+                  type: array
+                  items:
+                    type: object
+                    title: "Query"
+                    minProperties: 1
+                    properties:
+                      anywhere:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '"judgment entered"'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"class" , "action"'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", "default judgment"'
+                              match_all_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                      case_number:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '"CSM20863417", "CSM20863418"'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              match_all_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"CSM20863417", "CSM20863418"'
+                      case_name:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              match_all_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '" Andrew Good vs. Apple INC.", "Beverage, et al. v. Apple Inc."'
+                      norm_id:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              match_all_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"BMYir24opsGye","kcoC9QyhWnoaf","jRJxwwdKasTz8"'
+                      docket:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '"judgment entered", " default judgment"'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              match_all_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"judgment entered", " default judgment"'
+                              action_date_from:
+                                type: string
+                                example: '2010-01-01'
+                              action_date_to:
+                                type: string
+                                example: '2012-05-01'
+                      party:
+                        type: object
+                        minProperties: 1
+                        properties:
+                          name:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"apple.inc", "john"'
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  match_any_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  match_all_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  '!match_any_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                                  '!match_all_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"apple.inc", "john"'
+                          type:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example:
+                                    - 833
+                                    - 834
+                                  minimum: 768
+                                  maximum: 1023
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      minimum: 768
+                                      maximum: 1023
+                                      example: '833,834'
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      maximum: 1023
+                                      minimum: 768
+                                      example: '833, 834'
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      minimum: 768
+                                      maximum: 1023
+                                      example: '833, 834'
+                          representation:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '38, 42'
+                                  minimum: 38
+                                  maximum: 52
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '38, 42'
+                                      minimum: 38
+                                      maximum: 52
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '38, 42'
+                                      minimum: 38
+                                      maximum: 52
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '38, 42'
+                                      minimum: 38
+                                      maximum: 52
+                          entity:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '113, 114'
+                                  minimum: 113
+                                  maximum: 127
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '113, 114'
+                                      minimum: 113
+                                      maximum: 127
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      maximum: 127
+                                      minimum: 113
+                                      example: '113, 114'
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '113, 114'
+                                      minimum: 113
+                                      maximum: 127
+                      attorney:
+                        type: object
+                        minProperties: 1
+                        properties:
+                          name:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"PETER MAYER", "RIPIN"'
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  match_all_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  match_any_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  '!match_all_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                                  '!match_any_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"PETER MAYER", "RIPIN"'
+                          type:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '53, 54'
+                                  minimum: 53
+                                  maximum: 67
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '53, 54'
+                                      minimum: 53
+                                      maximum: 67
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '53, 54'
+                                      minimum: 53
+                                      maximum: 67
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: integer
+                                      example: '53, 54'
+                                      minimum: 53
+                                      maximum: 67
+                          firm:
+                            oneOf:
+                              - type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"DLA Piper", "Akerman LLP"'
+                              - type: object
+                                minProperties: 1
+                                properties:
+                                  match_all:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  match_any_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  match_all_exact:
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  '!match_any':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  '!match_all':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  '!match_any_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                                  '!match_all_exact':
+                                    type: array
+                                    minItems: 1
+                                    items:
+                                      type: string
+                                      example: '"DLA Piper", "Akerman LLP"'
+                      judge:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: '"John Roberts", "Stephen Breyer"'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              match_any_exact:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              match_all_exact:
+                                type: array
+                                minItems: -1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              '!match_any_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                              '!match_all_exact':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: string
+                                  example: '"John Roberts", "Stephen Breyer"'
+                      jurisdiction:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: integer
+                              example: '2, 128'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '2, 128'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '2, 128'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '2, 128'
+                      case_type:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: integer
+                              example: '8, 207'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '8, 207'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '8, 207'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '8, 207'
+                      case_status:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: integer
+                              example: '24, 526'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '24, 526'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '24, 526'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '24, 526'
+                      nos_code:
+                        oneOf:
+                          - type: array
+                            minItems: 1
+                            items:
+                              type: integer
+                              example: '1730, 2730, 3730'
+                          - type: object
+                            minProperties: 1
+                            properties:
+                              match_all:
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '1730, 2730, 3730'
+                              '!match_any':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '1730, 2730, 3730'
+                              '!match_all':
+                                type: array
+                                minItems: 1
+                                items:
+                                  type: integer
+                                  example: '1730, 2730, 3730'
+                      filed_from:
+                        type: string
+                        example: '2020-01-01'
+                      filed_to:
+                        type: string
+                        example: '2020-01-30'
+                      created_from:
+                        type: string
+                        example: '2020-01-01'
+                      created_to:
+                        type: string
+                        example: '2020-01-30'
+                      last_updated_from:
+                        type: string
+                        example: '2019'
+                      last_updated_to:
+                        type: string
+                        example: '2020'
+                      last_update_changes_found_from:
+                        type: string
+                        example: '2020-01-01'
+                      last_update_changes_found_to:
+                        type: string
+                        example: '2020-01-30'
+                      dollar_amount_from:
+                        type: number
+                        example: '2000'
+                      dollar_amount_to:
+                        type: number
+                        example: 10000
+                criteria:
+                  type: string
+                  example: (1 AND 2)
+                filters:
+                  type: object
+                  minProperties: 1
+                  properties:
+                    jurisdiction:
+                      oneOf:
+                        - type: array
+                          minItems: 1
+                          items:
+                            type: integer
+                            example: '2, 128'
+                        - type: object
+                          minProperties: 1
+                          properties:
+                            match_all:
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '2, 128'
+                            '!match_any':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '2, 128'
+                            '!match_all':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '2, 128'
+                    case_type:
+                      oneOf:
+                        - type: array
+                          minItems: 1
+                          items:
+                            type: integer
+                            example: '8, 207'
+                        - type: object
+                          minProperties: 1
+                          properties:
+                            match_all:
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '8, 207'
+                            '!match_any':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '8, 207'
+                            '!match_all':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '8, 207'
+                    case_status:
+                      oneOf:
+                        - type: array
+                          minItems: 1
+                          items:
+                            type: integer
+                            example: '24, 526'
+                        - type: object
+                          minProperties: 1
+                          properties:
+                            match_all:
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '24, 526'
+                            '!match_any':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '24, 526'
+                            '!match_all':
+                              type: array
+                              minItems: 1
+                              items:
+                                type: integer
+                                example: '24, 526'
+                    filed_from:
+                      type: string
+                      example: '2020-01-01'
+                    filed_to:
+                      type: string
+                      example: '2020-01-30'
+                    created_from:
+                      type: string
+                      example: '2020-01-01'
+                    created_to:
+                      type: string
+                      example: '2020-01-30'
+                    last_updated_from:
+                      type: string
+                      example: '2019'
+                    last_updated_to:
+                      type: string
+                      example: '2020'
+                    last_update_changes_found_from:
+                      type: string
+                      example: '2020-01-01'
+                    last_update_changes_found_to:
+                      type: string
+                      example: '2020-01-30'
+                    num_party:
+                      type: object
+                      minProperties: 1
+                      properties:
+                        from:
+                          type: integer
+                          minimum: 1
+                          example: 2
+                        to:
+                          type: integer
+                          example: 5
+                          minimum: 1
+                    num_attorney:
+                      type: object
+                      minProperties: 1
+                      properties:
+                        from:
+                          type: integer
+                          example: 1
+                          minimum: 1
+                        to:
+                          type: integer
+                          minimum: 1
+                          example: 5
+                    num_firm:
+                      type: object
+                      minProperties: 1
+                      properties:
+                        from:
+                          type: integer
+                          minimum: 1
+                          example: 1
+                        to:
+                          type: integer
+                          example: 2
+                          minimum: 1
+                    must_have:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - firm
+                          - attorney
+                          - attorney_email
+                          - attorney_phone
+                          - judgment
+                        example: judgment
+                sort_field:
+                  type: string
+                  enum:
+                    - relevancy
+                    - filing_date
+                  default: filing_date
+                  example: relevancy
+                sort_by:
+                  type: string
+                  enum:
+                    - asc
+                    - desc
+                  default: desc
+                  example: desc
+                page:
+                  type: integer
+                  default: '1'
+                  minimum: 1
+                  maximum: 100
+                  example: 1
+                items_per_page:
+                  type: integer
+                  default: '10'
+                  minimum: 10
+                  maximum: 100
+                  example: 10

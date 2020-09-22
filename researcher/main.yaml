@@ -77,6 +77,23 @@ paths:
         '401':
           $ref: "common_response.yaml#/components/responses/401"
 
+  /search/query:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Search
+      requestBody:
+        $ref: "search/search_query/post_request.yaml#/components/requestBodies/search_api"
+      responses:
+        '200':
+          $ref: "search/search_query/response.yaml#/components/responses/search_api"
+        '500':
+          $ref: "common_response.yaml#/components/responses/500"
+        '404':
+          $ref: "common_response.yaml#/components/responses/404"
+        '401':
+          $ref: "common_response.yaml#/components/responses/401"
 
   /master-data/{master_data_type}:
     get:
