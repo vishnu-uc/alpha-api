@@ -1,0 +1,515 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    client_party_name:
+      type: string
+      example: Social Security Administration
+    matched_party_name:
+      type: string
+      example: Social Security Administration
+    case_url:
+      type: string
+      example: https://app.unicourt.com/researcher/case/detail/FFCBQHBDFZCDMGEFMUYWNCLIMZIAW1027
+    case_id: 
+      type: string
+      example: FFCBQHBDFZCDMGEFMUYWNCLIMZIAW1027
+    case_number:
+      type: string
+      example: 1:19-cv-01096
+    case_name:
+      type: string
+      example: Reinheimer v. Saul
+    created_date:
+      "$ref": "../../../../definitions.yaml#/definitions/v5_created_date"
+    last_updated:
+      "$ref": "../../../../definitions.yaml#/definitions/v5_last_updated"
+    filing_date:
+      "$ref": "../../../../definitions.yaml#/definitions/v5_filing_date"
+    last_update_changes_found:
+      "$ref": "../../../../definitions.yaml#/definitions/v5_last_update_changes_found"
+    judges:
+      type: string
+      example: Pamela Pepper
+    jurisdiction:
+      description: Court System
+      maximum: 100
+      type: string
+      example: U.S. District Courts
+    courthouse:
+      description: Courthouse
+      type: string
+      maximum: 100
+      example: Wisconsin Eastern District
+    case_type_category:
+      type: string
+      maximum: 100
+      description: Case Type Category
+      example: Civil
+    case_type_subcategory:
+      maximum: 100
+      type: string
+      description: Case Type Group
+      example: Government Benefit
+    case_type:
+      maximum: 100
+      type: string
+      description: Case Type Name
+      example: Social Security Disability
+    case_status_category:
+      type: string
+      maximum: 100
+      description: Case Status Category
+      example: Pending
+    case_status:
+      type: string
+      maximum: 100
+      description: Case Status Name
+      example: Other Pending
+    state:
+      type: string
+      maximum: 2
+      description: state_key to which the case belong to.
+      example: PC
+    county:
+      type: string
+      maximum: 100
+      description: county to which the case belongs to.
+      example: Pacer
+    party_id:
+      type: string
+      example: GJGSCJJXJA4VEHQ3IROWZC3RNJOBM0919
+    party_fullname:
+      type: string
+      example: Tennessee Valley Authority
+    party_type:
+      type: string
+      example: Plaintiff
+    party_representation_type:
+      type: string
+      example: Attorney Represented
+    party_entity_type:
+      type: string
+      example: Company
+    party_attorney:
+      type: string
+      example: Lane Elizabeth McCarty
+    party_attorney_firm: 
+      type: string
+      example: United States Department of Justice (ED-WI)
+    attorney_fullname:
+      type: string
+      example: STOLLER LORENZO CARRA
+    attorney_bar_number:
+      type: string
+      example: 291581
+    attorney_firm:
+      type: string
+      example: CONOVER & GREBE LLP
+    attorney_phone_num:
+      type: string
+      example: (310) 542-9888
+    attorney_fax_num:
+      type: string
+      example: (310) 542-1588
+    attorney_street_address:
+      type: string
+      example: 3424 W CARSON ST,STE 320
+    attorney_city:
+      type: string
+      example: TORRANCE
+    attorney_state:
+      type: string
+      example: CA
+    attorney_country:
+      type: string
+      example: US
+    attorney_zip:
+      type: string
+      example: 90503-5717
+    attorney_emails:
+      type: string
+      example: lstoller@grebeprobatelaw.com
+
+    case:
+      type: object
+      properties:
+        client_party_name:
+          $ref: "#/components/schemas/client_party_name"
+        matched_party_name:
+          $ref: "#/components/schemas/matched_party_name"
+        case_url:
+          $ref: "#/components/schemas/case_url"
+        case_number:
+          $ref: "#/components/schemas/case_number"
+        case_name:
+          $ref: "#/components/schemas/case_name"
+        created_date:
+          $ref: "#/components/schemas/created_date"
+        last_updated:
+          $ref: "#/components/schemas/last_updated"
+        filing_date:
+          $ref: "#/components/schemas/filing_date"
+        last_update_changes_found:
+          $ref: "#/components/schemas/last_update_changes_found"
+        judges:
+          $ref: "#/components/schemas/judges"
+        jurisdiction:
+          $ref: "#/components/schemas/jurisdiction"
+        courthouse:
+          $ref: "#/components/schemas/courthouse"
+        case_type_category:
+          $ref: "#/components/schemas/case_type_category"
+        case_type_subcategory:
+          $ref: "#/components/schemas/case_type_subcategory"
+        case_type:
+          $ref: "#/components/schemas/case_type"
+        case_status_category:
+         $ref: "#/components/schemas/case_status_category"
+        case_status:
+          $ref: "#/components/schemas/case_status"
+        state:
+          $ref: "#/components/schemas/state"
+        county:
+          $ref: "#/components/schemas/county"
+        party_id:
+          $ref: "#/components/schemas/party_id"
+        party_fullname:
+          $ref: "#/components/schemas/party_fullname"
+        party_type:
+          $ref: "#/components/schemas/party_type"
+        party_representation_type:
+          $ref: "#/components/schemas/party_representation_type"
+        party_entity_type:
+          $ref: "#/components/schemas/party_entity_type"
+        party_attorney:
+          $ref: "#/components/schemas/party_attorney"
+        party_attorney_firm: 
+          $ref: "#/components/schemas/party_attorney_firm"
+    party:
+      type: object
+      properties:
+        client_party_name:
+          $ref: "#/components/schemas/client_party_name"
+        matched_party_name:
+          $ref: "#/components/schemas/matched_party_name"
+        case_url:
+          $ref: "#/components/schemas/case_url"
+        case_number:
+          $ref: "#/components/schemas/case_number"
+        case_name:
+          $ref: "#/components/schemas/case_name"
+        created_date:
+          $ref: "#/components/schemas/created_date"
+        last_updated:
+          $ref: "#/components/schemas/last_updated"
+        filing_date:
+          $ref: "#/components/schemas/filing_date"
+        last_update_changes_found:
+          $ref: "#/components/schemas/last_update_changes_found"
+        judges:
+          $ref: "#/components/schemas/judges"
+        jurisdiction:
+          $ref: "#/components/schemas/jurisdiction"
+        courthouse:
+          $ref: "#/components/schemas/courthouse"
+        case_type_category:
+          $ref: "#/components/schemas/case_type_category"
+        case_type_subcategory:
+          $ref: "#/components/schemas/case_type_subcategory"
+        case_type:
+          $ref: "#/components/schemas/case_type"
+        case_status_category:
+         $ref: "#/components/schemas/case_status_category"
+        case_status:
+          $ref: "#/components/schemas/case_status"
+        state:
+          $ref: "#/components/schemas/state"
+        county:
+          $ref: "#/components/schemas/county"
+        party_id:
+          $ref: "#/components/schemas/party_id"
+        party_fullname:
+          $ref: "#/components/schemas/party_fullname"
+        party_type:
+          $ref: "#/components/schemas/party_type"
+        party_representation_type:
+          $ref: "#/components/schemas/party_representation_type"
+        party_entity_type:
+          $ref: "#/components/schemas/party_entity_type"
+        party_attorney:
+          $ref: "#/components/schemas/party_attorney"
+        party_attorney_firm: 
+          $ref: "#/components/schemas/party_attorney_firm"
+    attorney:
+      type: object
+      properties:
+        attorney_fullname:
+          $ref: "#/components/schemas/attorney_fullname"
+        attorney_bar_number:
+          $ref: "#/components/schemas/attorney_bar_number"
+        attorney_firm:
+          $ref: "#/components/schemas/attorney_firm"
+        attorney_phone_num:
+          $ref: "#/components/schemas/attorney_phone_num"
+        attorney_fax_num:
+          $ref: "#/components/schemas/attorney_fax_num"
+        attorney_street_address:
+          $ref: "#/components/schemas/attorney_street_address"
+        attorney_city:
+          $ref: "#/components/schemas/attorney_city"
+        attorney_state:
+          $ref: "#/components/schemas/attorney_state"
+        attorney_country:
+          $ref: "#/components/schemas/attorney_country"
+        attorney_zip:
+          $ref: "#/components/schemas/attorney_zip"
+        attorney_emails:
+          $ref: "#/components/schemas/attorney_emails"
+        party_id:
+          $ref: "#/components/schemas/party_id"
+        party_fullname:
+          $ref: "#/components/schemas/party_fullname"
+        party_type:
+          $ref: "#/components/schemas/party_type"
+        party_representation_type:
+          $ref: "#/components/schemas/party_representation_type"
+        party_entity_type:
+          $ref: "#/components/schemas/party_entity_type"
+        client_party_name:
+          $ref: "#/components/schemas/client_party_name"
+        matched_party_name:
+          $ref: "#/components/schemas/matched_party_name"
+        case_url:
+          $ref: "#/components/schemas/case_url"
+        case_number:
+          $ref: "#/components/schemas/case_number"
+        case_name:
+          $ref: "#/components/schemas/case_name"
+        created_date:
+          $ref: "#/components/schemas/created_date"
+        last_updated:
+          $ref: "#/components/schemas/last_updated"
+        filing_date:
+          $ref: "#/components/schemas/filing_date"
+        last_update_changes_found:
+          $ref: "#/components/schemas/last_update_changes_found"
+        judges:
+          $ref: "#/components/schemas/judges"
+        jurisdiction:
+          $ref: "#/components/schemas/jurisdiction"
+        courthouse:
+          $ref: "#/components/schemas/courthouse"
+        case_type_category:
+          $ref: "#/components/schemas/case_type_category"
+        case_type_subcategory:
+          $ref: "#/components/schemas/case_type_subcategory"
+        case_type:
+          $ref: "#/components/schemas/case_type"
+        case_status_category:
+         $ref: "#/components/schemas/case_status_category"
+        case_status:
+          $ref: "#/components/schemas/case_status"
+        state:
+          $ref: "#/components/schemas/state"
+        county:
+          $ref: "#/components/schemas/county"
+
+
+  responses:
+    search_result_get:
+      description: Got result successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            title: "SearchResultGetResponse"
+            properties:
+              next:
+                type: string
+                example: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=3ca5b80fasd3ss3 
+                description: Use this path for calling the API to get next page results. If the current page is the last page then this value will be null.
+              previous:
+                type: string
+                example: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=6ecd3ad318d1r3r
+                description: Use this path for calling the API to get previous page results.
+              results:
+                type: array
+                items:
+                  oneOf:
+                    - $ref:  "#/components/schemas/case"
+                    - $ref:  "#/components/schemas/party"
+                    - $ref:  "#/components/schemas/attorney"
+            
+          examples:
+            Case Result:
+                value: 
+                  next: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=3ca5b80fasd3ss3 
+                  previous: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=6ecd3ad318d1r3r
+                  result:
+                  - case_url: https://app.unicourt.com/researcher/case/detail/EQ7RGFY6FE7TCE4AMAWGDBDDK5DQM1013
+                    case_id: EQ7RGFY6FE7TCE4AMAWGDBDDK5DQM1013
+                    case_number: 5:19-cv-01212
+                    case_name: Tennessee Valley Authority v. Walcott
+                    filing_date: '2019-07-30 00:00:00'
+                    jurisdiction: U.S. District Courts
+                    courthouse: Alabama Northern District
+                    case_type_category: Civil
+                    case_type_subcategory: Property
+                    case_type: Other Real Property
+                    case_status_category: Pending
+                    case_status: Other Pending
+                    judges: Herman N Johnson, Jr
+                    state: PC
+                    county: Pacer
+                  - case_url: https://app.unicourt.com/researcher/case/detail/EZARKGJAFNATGFMCMIXGHBTFMNIAW1033
+                    case_id: EZARKGJAFNATGFMCMIXGHBTFMNIAW1033
+                    case_number: 4:19-cv-04396
+                    case_name: Saechao
+                    filing_date: '2019-07-31 00:00:00'
+                    jurisdiction: U.S. District Courts
+                    courthouse: California Northern District
+                    case_type_category: Civil
+                    case_type_subcategory: Government Benefit
+                    case_type: Social Security Disability
+                    case_status_category: Pending
+                    case_status: Other Pending
+                    judges: ''
+                    state: PC
+                    county: Pacer
+                  - case_url: https://app.unicourt.com/researcher/case/detail/FFCBQHBDFZCDMGEFMUYWNCLIMZIAW1027
+                    case_id: FFCBQHBDFZCDMGEFMUYWNCLIMZIAW1027
+                    case_number: 1:19-cv-01096
+                    case_name: Reinheimer v. Saul
+                    filing_date: '2019-07-30 00:00:00'
+                    jurisdiction: U.S. District Courts
+                    courthouse: Wisconsin Eastern District
+                    case_type_category: Civil
+                    case_type_subcategory: Government Benefit
+                    case_type: Social Security Disability
+                    case_status_category: Pending
+                    case_status: Other Pending
+                    judges: Pamela Pepper
+                    state: PC
+                    county: Pacer
+            Attorney Result:
+              value:
+                next: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=3ca5b80fasd3ss3 
+                previous: v5/search/results/?search_run_id=3ca5b80f-799d-4077-bdc1-6ecd3ad318d1&data_type=case&entity_id=3ca5b80f&page_key=6ecd3ad318d1r3r
+                result:
+                - case_id: FNDBUHRQIEZEWFYXNEZWLBC7LZGBK0912
+                  case_number: 19STPB06359
+                  case_name: RIENDEAU, MARGIE A - DECEDENT
+                  filing_date: '2019-07-10'
+                  jurisdiction: Los Angeles County Superior Courts
+                  courthouse: Stanley Mosk Courthouse
+                  case_type_category: Civil
+                  case_type_subcategory: Probate
+                  case_type: Other Probate
+                  case_status_category: Pending
+                  case_status: Other Pending
+                  judges: ''
+                  state: CA
+                  county: Los Angeles
+                  party_fullname: RIENDEAU MARGIE A
+                  party_representation_type: Unrepresented
+                  party_type: Decedent
+                  attorney_fullname: ''
+                  attorney_bar_number: ''
+                  attorney_firm: ''
+                  attorney_phone_num: ''
+                  attorney_fax_num: ''
+                  attorney_street_address: ''
+                  attorney_city: ''
+                  attorney_state: ''
+                  attorney_country: ''
+                  attorney_zip: ''
+                  attorney_emails: ''
+                - case_id: FNDBUHRQIEZEWFYXNEZWLBC7LZGBK0912
+                  case_number: 19STPB06359
+                  case_name: RIENDEAU, MARGIE A - DECEDENT
+                  filing_date: '2019-07-10'
+                  jurisdiction: Los Angeles County Superior Courts
+                  courthouse: Stanley Mosk Courthouse
+                  case_type_category: Civil
+                  case_type_subcategory: Probate
+                  case_type: Other Probate
+                  case_status_category: Pending
+                  case_status: Other Pending
+                  judges: ''
+                  state: CA
+                  county: Los Angeles
+                  party_fullname: RIENDEAU DOUGLAS M
+                  party_representation_type: Attorney Represented
+                  party_type: Petitioner
+                  attorney_fullname: STOLLER LORENZO CARRA
+                  attorney_bar_number: '291581'
+                  attorney_firm: CONOVER & GREBE LLP
+                  attorney_phone_num: "(310) 542-9888"
+                  attorney_fax_num: "(310) 542-1588"
+                  attorney_street_address: 3424 W CARSON ST,STE 320
+                  attorney_city: TORRANCE
+                  attorney_state: CA
+                  attorney_country: US
+                  attorney_zip: 90503-5717
+                  attorney_emails: lstoller@grebeprobatelaw.com
+                - case_id: GFGCAJBWI44FCHI5N44WXCTFMRKBM0909
+                  case_number: 19STPB06374
+                  case_name: STEAKLEY, JEANNINE - DECEDENT
+                  filing_date: '2019-07-10'
+                  jurisdiction: Los Angeles County Superior Courts
+                  courthouse: Stanley Mosk Courthouse
+                  case_type_category: Civil
+                  case_type_subcategory: Probate
+                  case_type: Other Probate
+                  case_status_category: Pending
+                  case_status: Other Pending
+                  judges: ''
+                  state: CA
+                  county: Los Angeles
+                  party_fullname: STEAKLEY JEANNINE
+                  party_representation_type: Unrepresented
+                  party_type: Decedent
+                  attorney_fullname: ''
+                  attorney_bar_number: ''
+                  attorney_firm: ''
+                  attorney_phone_num: ''
+                  attorney_fax_num: ''
+                  attorney_street_address: ''
+                  attorney_city: ''
+                  attorney_state: ''
+                  attorney_country: ''
+                  attorney_zip: ''
+                  attorney_emails: ''
+                - case_id: GFGCAJBWI44FCHI5N44WXCTFMRKBM0909
+                  case_number: 19STPB06374
+                  case_name: STEAKLEY, JEANNINE - DECEDENT
+                  filing_date: '2019-07-10'
+                  jurisdiction: Los Angeles County Superior Courts
+                  courthouse: Stanley Mosk Courthouse
+                  case_type_category: Civil
+                  case_type_subcategory: Probate
+                  case_type: Other Probate
+                  case_status_category: Pending
+                  case_status: Other Pending
+                  judges: ''
+                  state: CA
+                  county: Los Angeles
+                  party_fullname: STEAKLEY JOHN
+                  party_representation_type: Attorney Represented
+                  party_type: Petitioner
+                  attorney_fullname: RUBALCAVA DAVID SEAN
+                  attorney_bar_number: '290493'
+                  attorney_firm: DAVID S RUBALCAVA APC
+                  attorney_phone_num: "(949) 315-1692"
+                  attorney_fax_num: ''
+                  attorney_street_address: 4400 MACARTHUR BLVD,STE 400
+                  attorney_city: NEWPORT BEACH
+                  attorney_state: CA
+                  attorney_country: US
+                  attorney_zip: 92660-2035
+                  attorney_emails: David.Rubalcava@DSRAttorneys.com
+          
+
+
+

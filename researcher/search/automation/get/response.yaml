@@ -1,0 +1,204 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    search:
+      type: object
+      title: SearchCriteria
+      properties:
+        filters:
+          type: array
+          items:
+            anyOf:
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_case_status"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_case_type"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_jurisdiction_v3"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_filing_date_range"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_dollar_amount_range"
+        items_per_page:
+          description: Request data will be returned.
+          type: integer
+          example: 5
+        page:
+          description: Request data will be returned.
+          type: integer
+          example: 1
+        max_result:
+          type: integer
+          example: 1000
+        query:
+          "$ref": "../../../../definitions.yaml#/definitions/response_search_query"
+        sort_field:
+          type: string
+          enum:
+            - filing_date_ts
+            - last_updated_ts
+            - weight_sum
+          example: weight_sum
+        sort_by:
+          type: string
+          enum:
+            - desc
+            - asc
+          example: desc
+
+    response_entity_search_query:
+      type: object
+      title: EntitySearchCriteria
+      properties:
+        terms:
+          title: SearchCriteria
+          type: object
+          properties:
+            "1":
+              type: object
+              title: "SearchTerms"
+              properties:
+                search_terms:
+                  type: array
+                  minItems: 1
+                  maxItems: 20
+                  items:
+                    "$ref": "../../../../definitions.yaml#/definitions/entity_search_columns"
+                attribute:
+                  type: string
+                  enum:
+                    - case_name
+                    - party_fullname
+                    - attorney_fullname
+                    - judge_fullname
+                    - case_number
+                    - all
+                proximity:
+                  type: string
+                  enum:
+                    - '0'
+                    - "-1"
+                scope:
+                  type: string
+                  enum:
+                    - match_any
+                    - match_all
+                operator:
+                  type: string
+                  enum:
+                    - is
+                    - not
+                additional_attributes:
+                  type: array
+                  items:
+                    title: AdditionalAttribute
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                          - party_type
+                          - party_representation_type
+                          - party_entity_type
+                        example: party_type
+                      options:
+                        type: array
+                        minItems: 1
+                        items:
+                          type: object
+                          title: Option
+                          properties:
+                            key:
+                              type: number
+                              example: 35
+                            name:
+                              type: string
+                              example: "Defendant"
+
+    entity_search:
+      type: object
+      title: EntitySearch
+      properties:
+        input_csv_file_path:
+          type: string
+          example: "entity_names.csv"
+        query:
+          "$ref": "#/components/schemas/response_entity_search_query"
+        filters:
+          type: array
+          items:
+            anyOf:
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_case_status"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_case_type"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_jurisdiction_v3"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_filing_date_range"
+              - "$ref": "../../../../definitions.yaml#/definitions/response_search_dollar_amount_range"
+
+    search_criteria:
+      title: JobCriteria
+      type: object
+      oneOf: 
+        - $ref: "../../../../definitions.yaml#/definitions/search_for_case_key"
+        - $ref: "#/components/schemas/search"
+        - $ref: "#/components/schemas/entity_search"
+        - $ref: "../../../../definitions.yaml#/definitions/search_for_search_id"
+      example:
+        page: 1
+        query:
+          terms:
+            '1':
+              scope: match_any
+              operator: is
+              attribute: all
+              condition: OR
+              proximity: "-1"
+              search_terms:
+              - courts
+          criteria: "(1)"
+        filters:
+        - field: filing_date
+          options:
+          - field: last_n_days
+            options:
+            - '90'
+        - field: jurisdiction
+          options:
+          - field: court_system
+            options:
+            - 73
+        - field: case_type
+          options:
+          - field: group
+            options:
+            - 1
+        sort_by: desc
+        max_result: '10000'
+        sort_field: filing_date_ts
+        items_per_page: 10
+
+    search_info:
+      type: object
+      title: JobInfo
+      properties:
+        name:
+          $ref: "../../../../definitions.yaml#/definitions/search_name"
+        criteria:
+          $ref: "#/components/schemas/search_criteria"
+        export_options:
+          $ref: "../../../../definitions.yaml#/definitions/export_options"
+        is_enabled:
+          $ref: "../../../../definitions.yaml#/definitions/search_is_enabled"
+        schedule:
+          $ref: "../../../../definitions.yaml#/definitions/search_schedule"
+        webhook:
+          $ref: "../../../../definitions.yaml#/definitions/webhook"
+        run_after_create:
+          $ref: "../../../../definitions.yaml#/definitions/search_run_after_create"
+      required:
+        - name
+        - criteria
+        - run_after_create
+
+  responses:
+    search_get_response:
+      description: Job Info
+      content:
+        application/json:
+          schema:
+            $ref : "#/components/schemas/search_info"

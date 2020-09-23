@@ -57,8 +57,6 @@ paths:
         |**party:(name:google AND firm:dla piper)**|Find cases where google is represented by the firm DLA Piper.|
         |**party:(name:google AND representation:attorney represented AND attorney:"john smith" AND party_type:defendant)**|Find cases where google is acting as a defendant and represented by the attorney John Smith.|
 
-
-
       summary: search any keyword with attribute and filters.
       parameters:
         - $ref: "search/search_query/get_request.yaml#/components/parameters/qParam"
@@ -67,13 +65,13 @@ paths:
         - $ref: "search/search_query/get_request.yaml#/components/parameters/orderParam"
         - $ref: "search/search_query/get_request.yaml#/components/parameters/limitParam"
       responses:
-        '200':
+        "200":
           $ref: "search/search_query/response.yaml#/components/responses/search_api"
-        '500':
+        "500":
           $ref: "common_response.yaml#/components/responses/500"
-        '404':
+        "404":
           $ref: "common_response.yaml#/components/responses/404"
-        '401':
+        "401":
           $ref: "common_response.yaml#/components/responses/401"
 
   /search/query:
@@ -85,13 +83,13 @@ paths:
       requestBody:
         $ref: "search/search_query/post_request.yaml#/components/requestBodies/search_api"
       responses:
-        '200':
+        "200":
           $ref: "search/search_query/response.yaml#/components/responses/search_api"
-        '500':
+        "500":
           $ref: "common_response.yaml#/components/responses/500"
-        '404':
+        "404":
           $ref: "common_response.yaml#/components/responses/404"
-        '401':
+        "401":
           $ref: "common_response.yaml#/components/responses/401"
 
   /master-data/{master_data_type}:
@@ -110,17 +108,25 @@ paths:
           example: jurisdiction
           schema:
             type: string
-            enum: [jurisdiction, case_type, case_status, docket_tag, party_type, representation_type]
+            enum:
+              [
+                jurisdiction,
+                case_type,
+                case_status,
+                docket_tag,
+                party_type,
+                representation_type,
+              ]
           required: true
           description: Master Data Type Requested.
       responses:
-        '200':
+        "200":
           $ref: "filter/root_node/response.yaml#/components/responses/root_node"
-        '500':
+        "500":
           $ref: "common_response.yaml#/components/responses/500"
-        '404':
+        "404":
           $ref: "common_response.yaml#/components/responses/404"
-        '401':
+        "401":
           $ref: "common_response.yaml#/components/responses/401"
 
   /master-data/{master_data_type}/{id}/children:
@@ -131,8 +137,7 @@ paths:
         - bearerAuth: []
       description: |
         Whether, node has children node can be decided using child_count field in response.
-      summary:
-        Returns children nodes for the requested master_data_type for given master_data_id from the system.
+      summary: Returns children nodes for the requested master_data_type for given master_data_id from the system.
       parameters:
         - $ref: "#/components/parameters/client_account_id_param"
         - in: path
@@ -140,7 +145,15 @@ paths:
           example: jurisdiction
           schema:
             type: string
-            enum: [jurisdiction, case_type, case_status, docket_tag, party_type, representation_type]
+            enum:
+              [
+                jurisdiction,
+                case_type,
+                case_status,
+                docket_tag,
+                party_type,
+                representation_type,
+              ]
           required: true
           description: Master Data Type requested.
         - in: path
@@ -151,13 +164,272 @@ paths:
           required: true
           description: Master Data ID for which child nodes are requested.
       responses:
-        '200':
+        "200":
           $ref: "filter/child_node/response.yaml#/components/responses/child_node"
-        '500':
+        "500":
           $ref: "common_response.yaml#/components/responses/500"
-        '404':
+        "404":
           $ref: "common_response.yaml#/components/responses/404"
-        '401':
+        "401":
           $ref: "common_response.yaml#/components/responses/401"
-        '204':
+        "204":
           $ref: "common_response.yaml#/components/responses/204"
+
+  /search/{search_type}/create:
+    post:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to Configure the Automated Search
+
+      summary: Setup the Automated Search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "search/automation/setup/request.yaml#/components/schemas/search_create"
+            examples:
+              entity_search:
+                $ref: "search/automation/setup/examples.yaml#/components/examples/entity_search"
+              query_search:
+                $ref: "search/automation/setup/examples.yaml#/components/examples/query_search"
+              id_search:
+                $ref: "search/automation/setup/examples.yaml#/components/examples/id_search"
+              case_key_search:
+                $ref: "search/automation/setup/examples.yaml#/components/examples/case_id_search"
+      parameters:
+        - in: path
+          name: search_type
+          example: entity_search
+          schema:
+            type: string
+            enum:
+              - entity_search
+              - query_search
+              - id_search
+              - case_id_search
+          required: true
+          description: |
+            Specify the type of job
+
+            - entity_search - If using CSV file with entity names as input.
+            - query_search - If using normal search query as input.
+      callbacks:
+        search_complete:
+          "{$request.body#/AutomatedSearchSetup.webhook}":
+            post:
+              description: Webhook to notify that Search run has finished. Webhook will be called to all the endpoints specified in webhook section of request body.
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        search_id:
+                          type: integer
+                          example: 1234
+                        search_run_id:
+                          type: string
+                          example: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+                        files:
+                          type: array
+                          items:
+                            type: object
+                            $ref: "definitions.yaml#/definitions/webhook_response"
+
+                      required:
+                        - search_id
+                        - search_run_id
+              responses: # Expected responses to the callback message
+                "200":
+                  description: Your server returns this code if it accepts the callback
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_id:
+                    type: integer
+                    example: 1879
+                  search_name:
+                    type: string
+                    example: Example Job
+                  search_run_id:
+                    description: This value will be returned only if the job is run right after it is setup, otherwise the value will be null.
+                    type: string
+                    example: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /search/{search_type}/update:
+    put:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to Update the Job Configurations
+
+      summary: Update the Job Configurations
+      parameters:
+        - in: path
+          name: search_type
+          example: entity_search
+          schema:
+            type: string
+            enum:
+              - entity_search
+              - query_search
+          required: true
+          description: |
+            Specify the type of job
+
+            - entity_search - If using CSV file with entity names as input.
+            - query_search - If using normal search query as input.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "search/automation/update/request.yaml#/components/schemas/search_update"
+            examples:
+              entity_search:
+                $ref: "search/automation/update/examples.yaml#/components/examples/entity_search"
+              query_search:
+                $ref: "search/automation/update/examples.yaml#/components/examples/query_search"
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_id:
+                    type: integer
+                    example: 1879
+                  search_name:
+                    type: string
+                    example: Example Job
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /search/{search_id}:
+    get:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to get Automated/Saved info
+
+      summary: Get Automated Search Info
+      parameters:
+        - $ref: "search/automation/get/request.yaml#/components/parameters/SearchID"
+      responses:
+        "200":
+          $ref: "search/automation/get/response.yaml#/components/responses/search_get_response"
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+    delete:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to delete an Automated Search.
+
+      summary: Delete Search
+      parameters:
+        - $ref: "search/automation/get/request.yaml#/components/parameters/SearchID"
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Saved search with ID:12 has been deleted"
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /search/results:
+    get:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to get enriched automated search run results.
+
+      summary: Get automated search run results.
+      parameters:
+        - $ref: "search/automation/result_get/request.yaml#/components/parameters/SearchRunID"
+        - $ref: "search/automation/result_get/request.yaml#/components/parameters/DataType"
+        - $ref: "search/automation/result_get/request.yaml#/components/parameters/EntityID"
+        - $ref: "search/automation/result_get/request.yaml#/components/parameters/PageKey"
+      responses:
+        "200":
+          $ref: "search/automation/result_get/response.yaml#/components/responses/search_result_get"
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /search/run/{search_id}:
+    post:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to run the saved search manually.
+
+      summary: Run Saved Search.
+      parameters:
+        - $ref: "search/automation/get/request.yaml#/components/parameters/SearchID"
+      responses:
+        "200":
+          $ref: "search/automation/run/response.yaml#/components/responses/search_run_response"
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"
+
+  /search/runs:
+    get:
+      tags:
+        - Search Automation APIs
+      description: |
+        API to get all the runs for the Search ID
+
+      summary: Get search run stats
+      parameters:
+        - $ref: "search/automation/get_runs/request.yaml#/components/parameters/SearchID"
+        - $ref: "search/automation/get_runs/request.yaml#/components/parameters/FromDate"
+        - $ref: "search/automation/get_runs/request.yaml#/components/parameters/ToDate"
+
+      responses:
+        "200":
+          $ref: "search/automation/get_runs/response.yaml#/components/responses/get_search_runs_response"
+        "500":
+          $ref: "common_response.yaml#/components/responses/500"
+        "404":
+          $ref: "common_response.yaml#/components/responses/404"
+        "401":
+          $ref: "common_response.yaml#/components/responses/401"

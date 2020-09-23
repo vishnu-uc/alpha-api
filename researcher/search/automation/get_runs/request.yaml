@@ -1,0 +1,30 @@
+openapi: 3.0.0
+
+components:
+  parameters:
+    SearchID:
+      in: query
+      name: search_id
+      example: 1234
+      schema:
+        type: integer
+      required: true
+      description: Search ID
+    FromDate:
+      in: query
+      name: from_date
+      schema:
+        type: string
+        pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        example: "2020-05-01"
+      required: false
+      description: Get job runs starting from this date
+    ToDate:
+      in: query
+      name: to_date
+      schema:
+        type: string
+        pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        example: "2020-06-01"
+      required: false
+      description: Get job runs starting till this date

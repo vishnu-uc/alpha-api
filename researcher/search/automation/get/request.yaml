@@ -1,0 +1,12 @@
+openapi: 3.0.0
+
+components:
+  parameters:
+    SearchID:
+      in: path
+      name: search_id
+      example: 1234
+      schema:
+        type: integer
+      required: true
+      description: Search ID

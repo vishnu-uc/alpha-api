@@ -1,0 +1,24 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    search_run_response:
+      description: The request has succeeded
+      content:
+        application/json:
+          schema:
+            type: object
+            title: SearchRun
+            properties:
+              search_id:
+                type: number
+              search_run_id:
+                type: string
+
+          examples:
+            Search Run:
+              value:
+                {
+                  search_id: 1234,
+                  search_run_id: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+                }

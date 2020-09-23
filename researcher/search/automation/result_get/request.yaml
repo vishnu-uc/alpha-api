@@ -1,0 +1,40 @@
+openapi: 3.0.0
+
+components:
+  parameters:
+    SearchRunID:
+      in: query
+      name: search_run_id
+      example: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+      schema:
+        type: string
+      required: true
+      description: Search Run ID
+    DataType:
+      in: query
+      name: data_type
+      example: case
+      schema:
+        type: string
+        enum:
+          - case
+          - party
+          - attorney
+      required: true
+      description: Specify the data type needed
+    EntityID:
+      in: query
+      name: entity_id
+      example: 3ca5b80f
+      schema:
+        type: string
+      required: true
+      description: Entity ID, applicable to users who have set up search using CSV having list of entity names.
+    PageKey:
+      in: query
+      name: page_key
+      example: 3ca5b80fasd3ss3
+      schema:
+        type: string
+      required: false
+      description: This value is not required in the first API call for a particular data_type or entity_id. For consecutive API call this is needed, this value will be returned in the API response.

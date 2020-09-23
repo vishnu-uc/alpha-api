@@ -1,0 +1,78 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    run_stats:
+      type: object
+      title: Job Run stats
+      properties:
+        search_run_id:
+          type: string
+          example: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+        max_match:
+          type: integer
+          example: 1000
+        start_time:
+          type: string
+          example: "2020-05-17 11:35:00.269700"
+        end_time:
+          type: string
+          example: "2020-05-17 11:35:00.269700"
+        total_results:
+          type: integer
+          example: 101
+        status:
+          type: string
+          enum:
+            - INPROGRESS
+            - FAILURE
+            - COMPLETED
+          example: COMPLETED
+
+  responses:
+    get_search_runs_response:
+      description: Get Search Runs for A Search ID
+      content:
+        application/json:
+          schema:
+            type: object
+            title: "JobRunsGetResponse"
+            properties:
+              search_id:
+                type: integer
+                example: 1234
+              search_name:
+                type: string
+                example: "Example Job"
+              runs:
+                type: array
+                items:
+                  type: object
+                  title: run stats
+                  $ref: "#/components/schemas/run_stats"
+          examples:
+            Get Job Runs:
+              value:
+                search_id: 1234
+                search_name: Example Job
+                runs:
+                - search_run_id: 3ca5b80f-799d-4077-bdc1-6ecd3ad318d1
+                  max_match: 10000
+                  start_time: '2020-05-17 11:35:00.269700'
+                  end_time: '2020-05-17 11:35:00.703525'
+                  total_result: 101
+                  status: COMPLETED
+                - search_run_id: 0ab6ac8a-98ba-440e-937f-52b4a089b7a2
+                  max_match: 10000
+                  start_time: '2020-05-12 11:25:00.190456'
+                  end_time: '2020-05-12 11:25:00.632382'
+                  total_result: 10
+                  status: COMPLETED
+                - search_run_id: 13138136-1958-4291-ada3-c9e1b563f033
+                  max_match: 10000
+                  start_time: '2020-06-01 12:26:07.103031'
+                  end_time: '2020-06-01 12:28:14.344799'
+                  total_result: 21
+                  status: COMPLETED
+
+          

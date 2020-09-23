@@ -1,0 +1,65 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    search_update_criteria:
+      title: JobCriteria
+      type: object
+      oneOf:
+        - $ref: "../../../definitions.yaml#/definitions/search"
+        - $ref: "../../../definitions.yaml#/definitions/entity_search"
+      example:
+        page: 1
+        query:
+          terms:
+            "1":
+              scope: match_any
+              operator: is
+              attribute: all
+              condition: OR
+              proximity: "-1"
+              search_terms:
+                - courts
+          criteria: "(1)"
+        filters:
+          - field: filing_date
+            options:
+              - field: last_n_days
+                options:
+                  - "90"
+          - field: jurisdiction
+            options:
+              - field: court_system
+                options:
+                  - 73
+          - field: case_type
+            options:
+              - field: group
+                options:
+                  - 1
+        sort_by: desc
+        max_result: "10000"
+        sort_field: filing_date_ts
+        items_per_page: 10
+
+    search_update:
+      type: object
+      title: ExportJobUpdate
+      properties:
+        search_id:
+          type: integer
+          example: 1234
+        name:
+          $ref: "../../../definitions.yaml#/definitions/search_name"
+        criteria:
+          $ref: "#/components/schemas/search_update_criteria"
+        export_options:
+          $ref: "../../../definitions.yaml#/definitions/export_options"
+        is_enabled:
+          $ref: "../../../definitions.yaml#/definitions/search_is_enabled"
+        schedule:
+          $ref: "../../../definitions.yaml#/definitions/search_schedule"
+        webhook:
+          $ref: "../../../definitions.yaml#/definitions/webhook"
+      required:
+        - search_id

@@ -1,0 +1,25 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    search_create:
+      type: object
+      title: AutomatedSearchSetup
+      properties:
+        name:
+          $ref: "../../../definitions.yaml#/definitions/search_name"
+        criteria:
+          $ref: "../../../definitions.yaml#/definitions/search_criteria"
+        export_options:
+          $ref: "../../../definitions.yaml#/definitions/export_options"
+        is_enabled:
+          $ref: "../../../definitions.yaml#/definitions/search_is_enabled"
+        schedule:
+          $ref: "../../../definitions.yaml#/definitions/search_schedule"
+        webhook:
+          $ref: "../../../definitions.yaml#/definitions/webhook"
+        run_after_create:
+          $ref: "../../../definitions.yaml#/definitions/run_search_after_create"
+      required:
+        - name
+        - criteria

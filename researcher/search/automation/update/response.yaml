@@ -1,0 +1,239 @@
+openapi: 3.0.0
+
+components:
+  responses:
+    search_api:
+      description: Search executed successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            title: "SearchQueryResponse"
+            properties:
+              data:
+                type: object
+                title: Data
+                properties:
+                  filters:
+                    type: array
+                    items:
+                      anyOf:
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_case_status"
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_case_type"
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_jurisdiction_v3"
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_filing_date_range"
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_dollar_amount_range"
+                        - "$ref": "../../../definitions.yaml#/definitions/response_search_docket_tag"
+                  max_match:
+                    type: integer
+                    example: 1000
+                  query:
+                    "$ref": "../../../definitions.yaml#/definitions/response_search_query"
+                  result:
+                    type: object
+                    title: Result
+                    properties:
+                      attorneys:
+                        type: array
+                        items:
+                          type: object
+                          title: attorneys
+                          properties:
+                            attorney_firm:
+                              type: string
+                              example: ""
+                            attorney_firm_snippet:
+                              type: string
+                              example: ""
+                            attorney_fullname:
+                              type: string
+                              example: TRIEU JOHN D. ESQ.
+                            attorney_fullname_snippet:
+                              type: string
+                              example: TRIEU <b>JOHN</b> D. ESQ.
+                            attorney_type:
+                              type: string
+                              example: Attorney
+                      parties:
+                        type: array
+                        items:
+                          type: object
+                          title: parties
+                          properties:
+                            party_entity:
+                              type: integer
+                              example: 0
+                            party_fullname:
+                              type: string
+                              example: CHUNG JOHN JIYUN
+                            party_fullname_snippet:
+                              type: string
+                              example: CHUNG <b>JOHN</b> JIYUN
+                            party_id:
+                              type: integer
+                              example: 2579308
+                            party_type:
+                              type: string
+                              example: Petitioner
+                            representation_type:
+                              type: string
+                              example: Attorney Represented
+                      case_id:
+                        type: integer
+                        maximum: 11
+                        description: Case ID of the case.
+                        example: 236803
+                      case_key:
+                        type: string
+                        maximum: 33
+                        description: Case Key of the case.
+                        example: "GBFR6IZKDNFUGJUDHY4GXC3QMRKBK0944"
+                      case_name:
+                        type: string
+                        maximum: 250
+                        description: Case Name
+                        example: HANNAH NEBEN VS THALIA SALINAS ET AL
+                      case_name_snippet:
+                        type: string
+                        maximum: 300
+                        description: The Case Name (matched in search term).
+                        example: HANNAH NEBEN VS THALIA SALINAS ET AL
+                      case_number:
+                        type: string
+                        maximum: 50
+                        description: Case Number
+                        example: BC710270
+                      codaxtr_instance_index_info_id:
+                        type: integer
+                        description: Database key value present in the researcher.
+                        example: 39
+                      "docket_snippet":
+                        maximum: 1000
+                        type: string
+                        description: The Docket which got matched, returned text can be a blob.
+                        example: "03/10/2020 <b>BC710270</b> - Notice of Assignment and OSC re CRC 3110 and CMC."
+                      case_status:
+                        type: object
+                        title: CaseStatus
+                        properties:
+                          case_status_category:
+                            type: string
+                            maximum: 100
+                            description: Case Status Category
+                            example: Pending
+                          case_status_name:
+                            type: string
+                            maximum: 100
+                            description: Case Status Name
+                            example: Other Pending
+                      case_type:
+                        type: object
+                        title: CaseType
+                        maximum: 100
+                        properties:
+                          case_type_category:
+                            type: string
+                            maximum: 100
+                            description: Case Type Category
+                            example: Civil
+                          case_type_group:
+                            maximum: 100
+                            type: string
+                            description: Case Type Group
+                            example: Personal Injury
+                          case_type_name:
+                            maximum: 100
+                            type: string
+                            description: Case Type Name
+                            example: Motor Vehicle
+                      state_key:
+                        type: string
+                        maximum: 4
+                        description: state_key to which the case belong to.
+                        example: CA
+                      county_key:
+                        type: string
+                        maximum: 4
+                        description: county_key to which the case belongs to.
+                        example: LA23
+                      court_system:
+                        description: Court System
+                        maximum: 100
+                        type: string
+                        example: Los Angeles County Superior Courts
+                      courthouse:
+                        description: Courthouse
+                        type: string
+                        maximum: 100
+                        example: Stanley Mosk Courthouse
+                      created_date:
+                        "$ref": "../../../definitions.yaml#/definitions/created_date"
+                      last_updated:
+                        "$ref": "../../../definitions.yaml#/definitions/last_updated"
+                      last_updated_ts:
+                        description: The date on which it was updated converted into timestamp
+                        type: integer
+                        example: 1529144240
+                      filing_date:
+                        "$ref": "../../../definitions.yaml#/definitions/filing_date"
+                      last_update_changes_found:
+                        "$ref": "../../../definitions.yaml#/definitions/last_update_changes_found"
+                      pacer_case_id:
+                        description: If it is a pacer case it returns pacer_case_id else it will be empty.
+                        type: integer
+                        maximum: 100
+                        example: null
+                      level_1:
+                        description: Whether it is Federal or Sate Case.
+                        type: string
+                        maximum: 255
+                        example: State
+                      level_2:
+                        description: Describe the state name.
+                        type: string
+                        maximum: 255
+                        example: California, State Courts
+                      judges:
+                        description: Gives the Judge Information.
+                        type: array
+                        items:
+                          type: object
+                          title: judges
+                          properties:
+                            judge_fullname:
+                              type: string
+                              example: CHEMELESKI, JOHN
+                            judge_fullname_snippet:
+                              type: string
+                              example: CHEMELESKI, <b>JOHN</b>
+                      weight:
+                        type: number
+                        example: 1
+                  items_per_page:
+                    description: Request data will be returned.
+                    type: integer
+                    example: 5
+                  page:
+                    description: Request data will be returned.
+                    type: integer
+                    example: 1
+                  total_matches:
+                    description: The number of matches that found in the index.
+                    type: integer
+                    example: 1
+                  total_time:
+                    description: The time taken for response.
+                    type: time
+                    example: 10.951230525970459 seconds
+              message:
+                type: string
+                description: The response message sent on successfull indexing.
+                example: "Search executed successfully."
+              status:
+                type: string
+                description: Specify if task was processed successfully or not
+                example: "success"
+              type:
+                type: string
+                description: Specify if any error occured, reason for that.
+                example: null
