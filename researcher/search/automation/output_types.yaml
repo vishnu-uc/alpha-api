@@ -1,0 +1,318 @@
+openapi: 3.0.0
+
+info:
+  title: Search API's
+  description: Search API can be use to query on search server and get result fast. This support muttiple filters.
+  version: "3.1.x"
+  contact:
+    name: Abhilash Joseph C
+    email: abhilash@unicourt.com
+
+definitions:
+  export_input_file_fields:
+    description: Specify the fields from Input CSV file which need to be included in the export data.
+    type: array
+    items:
+      type: string
+    example:
+      - client_party_id
+      - client_party_name
+
+  export_file:
+    description: If set to true, a file will be generated containing the user specified fields.
+    type: boolean
+    example: true
+
+  matched_case:
+    title: Matched_Case
+    description: Mention the fields needed
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - created_date
+            - case_last_fetch
+            - case_last_updates_found
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - related_cases
+        example:
+          - case_url
+          - case_id
+          - case_number
+          - case_name
+          - filing_date
+          - created_date
+          - case_last_fetch
+          - case_last_updates_found
+          - jurisdiction
+          - courthouse
+          - case_type_category
+          - case_type_subcategory
+          - case_type
+          - case_status_category
+          - case_status
+          - judges
+          - state
+          - county
+          - related_cases
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+
+  matched_party:
+    title: Matched_Party
+    description: Mention the fields required
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - id
+            - party_full_name
+            - matched_party_full_name
+            - party_id
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorneys
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - filing_date
+            - created_date
+            - case_last_fetch
+            - case_last_updates_found
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+        example:
+          - id
+          - party_full_name
+          - matched_party_full_name
+          - party_id
+          - party_type
+          - party_entity_type
+          - party_representation_type
+          - party_attorneys
+          - case_url
+          - case_id
+          - case_number
+          - case_name
+          - filing_date
+          - created_date
+          - case_last_fetch
+          - case_last_updates_found
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+
+  matched_party_attorney:
+    title: Matched_Party_Attorney
+    description: Mention the fields required
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - attorney_fullname
+            - attorney_bar_number
+            - attorney_firm
+            - attorney_phone_num
+            - attorney_fax_num
+            - attorney_street_address
+            - attorney_city
+            - attorney_state
+            - attorney_country
+            - attorney_zip
+            - attorney_emails
+            - client_party_name_id
+            - client_party_name
+            - matched_party_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+        example:
+          - attorney_fullname
+          - attorney_bar_number
+          - attorney_firm
+          - attorney_phone_num
+          - attorney_fax_num
+          - attorney_street_address
+          - attorney_city
+          - attorney_state
+          - attorney_country
+          - attorney_zip
+          - attorney_emails
+          - filing_date
+          - case_url
+          - case_number
+          - case_name
+          - jurisdiction
+          - courthouse
+          - case_type_category
+          - case_type_subcategory
+          - case_type
+          - case_status_category
+          - case_status
+          - judges
+          - state
+          - county
+          - party_id
+          - party_fullname
+          - party_type
+          - party_entity_type
+          - party_representation_type
+          - party_attorney
+          - party_attorney_firm
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+      include_bar_data:
+        description: If set to true attorney bar information will be included in the output.
+        type: boolean
+        default: false
+        example: true
+
+  matched_attorney:
+    title: Matched_Party_Attorney
+    description: Mention the fields required
+    type: object
+    properties:
+      export_file:
+        $ref: "#/definitions/export_file"
+      fields:
+        type: array
+        items:
+          type: string
+          enum:
+            - attorney_fullname
+            - attorney_bar_number
+            - attorney_firm
+            - attorney_phone_num
+            - attorney_fax_num
+            - attorney_street_address
+            - attorney_city
+            - attorney_state
+            - attorney_country
+            - attorney_zip
+            - attorney_emails
+            - client_party_name_id
+            - client_party_name
+            - matched_party_name
+            - filing_date
+            - last_updated_date
+            - created_date
+            - last_update_changes_found
+            - case_url
+            - case_id
+            - case_number
+            - case_name
+            - jurisdiction
+            - courthouse
+            - case_type_category
+            - case_type_subcategory
+            - case_type
+            - case_status_category
+            - case_status
+            - judges
+            - state
+            - county
+            - party_id
+            - party_fullname
+            - party_type
+            - party_entity_type
+            - party_representation_type
+            - party_attorney
+        example:
+          - attorney_fullname
+          - attorney_bar_number
+          - attorney_firm
+          - attorney_phone_num
+          - attorney_fax_num
+          - attorney_street_address
+          - attorney_city
+          - attorney_state
+          - attorney_country
+          - attorney_zip
+          - attorney_emails
+          - filing_date
+          - case_url
+          - case_number
+          - case_name
+          - jurisdiction
+          - courthouse
+          - case_type_category
+          - case_type_subcategory
+          - case_type
+          - case_status_category
+          - case_status
+          - judges
+          - state
+          - county
+          - party_id
+          - party_fullname
+          - party_type
+          - party_entity_type
+          - party_representation_type
+          - party_attorney
+          - party_attorney_firm
+      input_file_fields:
+        $ref: "#/definitions/export_input_file_fields"
+      include_bar_data:
+        description: If set to true attorney bar information will be included in the output.
+        type: boolean
+        default: false
+        example: true
