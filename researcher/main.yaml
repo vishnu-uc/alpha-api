@@ -214,6 +214,8 @@ paths:
 
             - entity_search - If using CSV file with entity names as input.
             - query_search - If using normal search query as input.
+            - case_id_search - To export data for a list of case ids.
+            - id_search - To export data for the given saved search id.
       callbacks:
         search_complete:
           "{$request.body#/AutomatedSearchSetup.webhook}":

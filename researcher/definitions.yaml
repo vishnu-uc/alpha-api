@@ -1405,12 +1405,12 @@ definitions:
       matched_party_attorney:
         $ref: "#/definitions/matched_party_attorney"
 
-  case_key_search:
+  case_id_search:
     description: use this to set up export job for case key
-    title: Case Key
+    title: Case ID
     type: object
     properties:
-      case_keys:
+      case_ids:
         type: array
         items:
           type: string
@@ -1418,7 +1418,7 @@ definitions:
             - "FJCRSHJPIAYUUFQWHRKGRBDEMBIRE0920"
             - "FJCRSHJPIAYUUFQWHRKGRBDEMBIRE0542"
     required:
-      - case_keys
+      - case_ids
     additionalProperties: false
 
   id_search:
@@ -1436,49 +1436,50 @@ definitions:
       - search_id
       - range
 
-  query_search:
+  search:
     description: use this to set up export job for search query
     type: object
     title: Search Query
     properties:
       query:
-        "$ref": "#/definitions/search_query"
-      sort_field:
         type: string
-        enum:
-          - filing_date_ts
-          - last_updated_ts
-          - weight_sum
-        example: weight_sum
-      sort_by:
-        type: string
-        enum:
-          - desc
-          - asc
-        example: desc
+        minLength: 3
+        maxLength: 250
+        example: motion to compel
+        description: |
+          The url encoded query you are searching for.
+          The query can be as simple as a keyword, but supports many additional options and filters.
+          All options are documented in Search Query API section</a>.
       page:
-        "$ref": "#/definitions/page_number"
-      items_per_page:
-        type: number
-        minimum: 10
+        type: integer
+        minimum: 1
         maximum: 100
+        example: 1
+        description: |
+          Page number.
+          - minimum: 1
+          - maximum: 100
+      sort:
+        type: string
+        enum: [filing_date, relevancy]
+        default: filing_date_ts
+        example: relevancy
+        description: Sort field.
+
+      order:
+        type: string
+        enum: [asc, desc]
+        default: desc
+        example: desc
+        description: Sort order.
+
+      limit:
+        type: integer
+        default: 10
         example: 10
-      filters:
-        type: array
-        items:
-          anyOf:
-            - "$ref": "#/definitions/search_case_status"
-            - "$ref": "#/definitions/search_case_type"
-            - "$ref": "#/definitions/search_jurisdiction_v3"
-            - "$ref": "#/definitions/search_filing_date_range"
-            - "$ref": "#/definitions/search_dollar_amount_range"
-      range:
-        $ref: "#/definitions/range"
+        description: items per page.
     required:
       - query
-      - sort_field
-      - page
-      - items_per_page
 
   entity_search_columns:
     type: string
@@ -1578,69 +1579,33 @@ definitions:
     properties:
       input_csv_file_path:
         type: string
-        example: "entity_names.csv"
+        example: "input_party_file.csv"
       query:
-        "$ref": "#/definitions/entity_search_query"
-        example: weight_sum
-      filters:
-        type: array
-        items:
-          anyOf:
-            - "$ref": "#/definitions/search_case_status"
-            - "$ref": "#/definitions/search_case_type"
-            - "$ref": "#/definitions/search_jurisdiction_v3"
-            - "$ref": "#/definitions/search_filing_date_range"
-            - "$ref": "#/definitions/search_dollar_amount_range"
+        type: string
+        minLength: 3
+        maxLength: 250
+        example: motion to compel
+        description: |
+          Setup search criterias like filters.
+          The query can be as simple as a keyword, but supports many additional options and filters.
+          All options are documented in Search Query API section</a>.
     required:
       - input_csv_file_path
       - query
 
   search_name:
-    title: JobName
+    title: SearchName
     type: string
-    example: "Example Job"
+    example: "Example Search"
 
   search_criteria:
-    title: JobCriteria
+    title: SearchCriteria
     type: object
     oneOf:
-      - $ref: "#/definitions/search_for_case_key"
+      - $ref: "#/definitions/case_id_search"
       - $ref: "#/definitions/search"
       - $ref: "#/definitions/entity_search"
-      - $ref: "#/definitions/search_for_search_id"
-    example:
-      page: 1
-      query:
-        terms:
-          "1":
-            scope: match_any
-            operator: is
-            attribute: all
-            condition: OR
-            proximity: "-1"
-            search_terms:
-              - courts
-        criteria: "(1)"
-      filters:
-        - field: filing_date
-          options:
-            - field: last_n_days
-              options:
-                - "90"
-        - field: jurisdiction
-          options:
-            - field: court_system
-              options:
-                - 73
-        - field: case_type
-          options:
-            - field: group
-              options:
-                - 1
-      sort_by: desc
-      max_result: "10000"
-      sort_field: filing_date_ts
-      items_per_page: 10
+      - $ref: "#/definitions/id_search"
 
   export_options:
     title: ExportOptions
